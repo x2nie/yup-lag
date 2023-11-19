@@ -369,6 +369,11 @@ export class Model {
     }
 
     @action
+    public set_seed(seed:number|string) {
+        this._seed = Number(seed)
+    }
+
+    @action
     public start(params?: ProgramParams) {
         try {
             if (this._curr) this._curr.throw(new Error("Interrupt"));

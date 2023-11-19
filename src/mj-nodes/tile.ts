@@ -1,4 +1,3 @@
-import { alea } from "seedrandom";
 import { Grid } from "../grid";
 import { Loader } from "../loader";
 import { Array2D, Array3Dflat, BoolArray3D } from "../helpers/datastructures";
