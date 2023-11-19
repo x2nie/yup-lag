@@ -1,4 +1,4 @@
-import seedrandom from "seedrandom";
+import { Random } from "../random";
 import { WasmInstance } from ".";
 import { HashMap, PriorityQueue } from "../helpers/datastructures";
 import { Rule } from "../rule";
@@ -70,7 +70,7 @@ export class NativeSearch {
             seed,
             viz,
         } = this;
-        const rng = seedrandom(seed.toString());
+        const rng = new Random(seed);
 
         lib.reset();
 
@@ -197,7 +197,7 @@ export class NativeSearch {
         const push_board = (ptr: number) =>
             frontier.enqueue({
                 v: ptr,
-                p: board_rank(ptr, rng.double(), dcoeff),
+                p: board_rank(ptr, rng.NextDouble(), dcoeff),
             });
 
         const root_board = new_board(elem);

@@ -6,11 +6,13 @@ import { Helper } from "../helpers/helper";
 import { SymmetryHelper } from "../helpers/symmetry";
 
 import { WFCNode } from ".";
+import { Random } from "../random";
 
 const FALSE = (_) => false;
 
 export class TileNode extends WFCNode {
-    protected static state_rng = alea("", { entropy: true });
+    // protected static state_rng = alea("", { entropy: true });
+    protected static state_rng = new Random();
 
     private tiledata: Uint8Array[];
 
@@ -480,7 +482,7 @@ export class TileNode extends WFCNode {
                                 let max = -1.0;
                                 let argmax = 0xff;
                                 for (let c = 0; c < v.length; c++) {
-                                    const vote = v[c] + 0.1 * rng.double();
+                                    const vote = v[c] + 0.1 * rng.NextDouble();
                                     if (vote > max) {
                                         argmax = c;
                                         max = vote;

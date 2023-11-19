@@ -1,4 +1,4 @@
-import seedrandom from "seedrandom";
+import { Random } from "./random";
 
 import * as path from "path";
 import * as fs from "fs";
@@ -45,7 +45,7 @@ export class Program {
 
     public static palette: Map<string, Uint8ClampedArray> = new Map();
 
-    public static meta = seedrandom();
+    public static meta = new Random();
 
     public static loadPalette() {
         const ep = Loader.xmlParse(PaletteXML);

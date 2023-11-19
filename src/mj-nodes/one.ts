@@ -1,4 +1,4 @@
-import { PRNG } from "seedrandom";
+import { Random } from "../random";
 import { Field } from "../field";
 import { Grid } from "../grid";
 import { BoolArray2D } from "../helpers/datastructures";
@@ -61,7 +61,7 @@ export class OneNode extends RuleNode {
         }
     }
 
-    randomMatch(rng: PRNG): vec4 {
+    randomMatch(rng: Random): vec4 {
         const { grid, matchMask, matches } = this;
 
         if (this.potentials) {
@@ -112,7 +112,7 @@ export class OneNode extends RuleNode {
                         firstHeuristic = heuristic;
                         firstHeuristicComputed = true;
                     }
-                    const u = rng.double();
+                    const u = rng.NextDouble();
                     const key =
                         this.temperature > 0
                             ? Math.pow(

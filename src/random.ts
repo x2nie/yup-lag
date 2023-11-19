@@ -24,7 +24,7 @@ export class Random {
     //private int[] SeedArray = new int[56];
 
     // public Random(Seed:number) {}
-    constructor(Seed:number|undefined) {
+    constructor(Seed:number|undefined=undefined) {
         this.inext = 0;
         this.inextp = 21;
         this.SeedArray.fill(0);

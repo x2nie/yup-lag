@@ -144,7 +144,7 @@ export class ConvChainNode extends Node {
                 continue;
             }
             if (temperature != 1) q = Math.pow(q, 1.0 / temperature);
-            if (q > ip.rng.double()) this.toggle(state, r);
+            if (q > ip.rng.NextDouble()) this.toggle(state, r);
         }
 
         this.counter++;

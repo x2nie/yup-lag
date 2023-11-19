@@ -1,4 +1,4 @@
-import seedrandom, { PRNG } from "seedrandom";
+import { Random } from "./random";
 import { Array2D, HashMap, PriorityQueue } from "./helpers/datastructures";
 import { Helper } from "./helpers/helper";
 import { Observation } from "./observation";
@@ -124,7 +124,7 @@ export class Search {
         const frontier = new PriorityQueue<{ p: number; v: number }>(
             ({ p: p1 }, { p: p2 }) => p1 <= p2
         );
-        const rng = seedrandom(seed.toString());
+        const rng = new Random(seed.toString());
         frontier.enqueue({ v: 0, p: rootBoard.rank(rng, depthCoefficient) });
 
         let record = rootBackwardEstimate + rootForwardEstimate;
@@ -504,14 +504,14 @@ class Board {
         this.forwardEstimate = forwardEstimate;
     }
 
-    public rank(rng: PRNG, depthCoefficient: number) {
+    public rank(rng: Random, depthCoefficient: number) {
         const result =
             depthCoefficient < 0.0
                 ? 1000 - this.depth
                 : this.forwardEstimate +
                   this.backwardEstimate +
                   2.0 * depthCoefficient * this.depth;
-        return result + 0.0001 * rng.double();
+        return result + 0.0001 * rng.NextDouble();
     }
 
     // Path trace

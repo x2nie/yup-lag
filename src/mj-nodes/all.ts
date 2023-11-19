@@ -107,7 +107,7 @@ export class AllNode extends RuleNode {
                         firstHeuristic = heuristic;
                         firstHeuristicComputed = true;
                     }
-                    const u = this.ip.rng.double();
+                    const u = this.ip.rng.NextDouble();
                     list.push([
                         m,
                         this.temperature > 0

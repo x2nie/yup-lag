@@ -1,4 +1,4 @@
-import seedrandom, { PRNG } from "seedrandom";
+import { Random } from "../random";
 import { Grid } from "../grid";
 import { Array3D, BoolArray2D } from "../helpers/datastructures";
 import { Helper } from "../helpers/helper";
@@ -34,7 +34,7 @@ export abstract class WFCNode extends Branch {
     public name: string;
 
     private firstgo = true;
-    protected rng: PRNG;
+    protected rng: Random;
 
     public override async load(
         elem: Element,
@@ -121,7 +121,7 @@ export abstract class WFCNode extends Branch {
             const goodseed = this.goodSeed();
             if (goodseed === null) return RunState.FAIL;
 
-            this.rng = seedrandom(goodseed.toString());
+            this.rng = new Random(goodseed);
             this.stacksize = 0;
             this.wave.copyFrom(this.startwave, this.shannon);
             this.firstgo = false;
@@ -147,8 +147,8 @@ export abstract class WFCNode extends Branch {
     goodSeed(): number {
         for (let k = 0; k < this.tries; k++) {
             let obs = 0;
-            const seed = this.ip.rng.int32();
-            this.rng = seedrandom(seed.toString());
+            const seed = this.ip.rng.Next();
+            this.rng = new Random(seed);
             this.stacksize = 0;
             this.wave.copyFrom(this.startwave, this.shannon);
 
@@ -178,7 +178,7 @@ export abstract class WFCNode extends Branch {
         return null;
     }
 
-    nextUnobservedNode(rng: PRNG) {
+    nextUnobservedNode(rng: Random) {
         const { grid, wave, periodic, shannon } = this;
         const { MX, MY, MZ } = grid;
 
@@ -197,7 +197,7 @@ export abstract class WFCNode extends Branch {
                         ? wave.entropies[i]
                         : remainingValues;
                     if (remainingValues > 1 && entropy <= min) {
-                        const noise = 1e-6 * rng.double();
+                        const noise = 1e-6 * rng.NextDouble();
                         if (entropy + noise < min) {
                             min = entropy + noise;
                             argmin = i;
@@ -207,11 +207,11 @@ export abstract class WFCNode extends Branch {
         return argmin;
     }
 
-    observe(node: number, rng: PRNG) {
+    observe(node: number, rng: Random) {
         const w = this.wave.data.row(node);
         for (let t = 0; t < this.P; t++)
             this.distribution[t] = w.get(t) ? this.weights[t] : 0;
-        const r = Helper.sampleWeights(this.distribution, rng.double());
+        const r = Helper.sampleWeights(this.distribution, rng.NextDouble());
         for (let t = 0; t < this.P; t++)
             if (w.get(t) !== (t === r)) this.ban(node, t);
     }

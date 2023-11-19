@@ -6,10 +6,12 @@ import { Helper } from "../helpers/helper";
 import { SymmetryHelper } from "../helpers/symmetry";
 
 import { WFCNode } from ".";
+import { Random } from "../random";
 
 // A bit slower than C# (130ms vs 90ms, WaveFlower, ryzen 5800x)
 export class OverlapNode extends WFCNode {
-    protected static state_rng = alea("", { entropy: true });
+    // protected static state_rng = alea("", { entropy: true });
+    protected static state_rng = new Random();
 
     private patterns: Array2D<Uint8Array>;
     private votes: Array2D<Uint32Array>;
@@ -245,7 +247,7 @@ export class OverlapNode extends WFCNode {
             const offset = i * cols;
 
             for (let c = 0; c < cols; c++) {
-                const value = buf[offset + c] + 0.1 * rng.double();
+                const value = buf[offset + c] + 0.1 * rng.NextDouble();
                 if (value > max) {
                     argmax = c;
                     max = value;
