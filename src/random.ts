@@ -33,6 +33,7 @@ export class Random {
             //this(Environment.TickCount);
             Seed = Math.floor(Math.random() * MBIG);
         }
+        Seed = Math.floor(Seed); // = int()Seed
         
         let ii;
         let mj, mk;
