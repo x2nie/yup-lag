@@ -79,7 +79,11 @@ export class Random {
     protected Sample():number { //Float.double
         //Including this division at the end gives us significantly improved
         //random number distribution.
-        return (this.InternalSample()*(1.0/MBIG));
+        // return (this.InternalSample()*(1.0/MBIG));
+        const jsFloat = this.InternalSample()*(1.0/MBIG);
+        const csharpDouble = jsFloat.toPrecision(15); //got string
+        const n = Number(csharpDouble); // will identical to C# value
+        return n;
     }
 
     private InternalSample():number { // int
