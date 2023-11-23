@@ -33,7 +33,7 @@ export const ControlPanel = observer(() => {
                             {"  "}
                             <div id="input-holder">
 
-                            seed: <input type="text" value={model.seed} onChange={(ev)=>{
+                            seed: <input type="text" value={model.seed || ''} onChange={(ev)=>{
                                 model.set_seed(ev.target.value)
                             }} />
                             <button >Set Seed</button>
