@@ -533,6 +533,8 @@ export class Model {
             }
 
             console.log(`Time: ${this._timer.toFixed(2)}ms`);
+            console.log(`Steps(maybe): ${this.rendered} ${state.length}`);
+            this.rendered = 0;
         } else {
             if (!once)
                 this._delay
