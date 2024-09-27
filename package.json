@@ -12,6 +12,8 @@
     "author": "Yuu6883",
     "license": "MIT",
     "devDependencies": {
+        "@swc-node/register": "^1.5.1",
+        "@swc/core": "^1.7.26",
         "@types/ace": "^0.0.48",
         "@types/file-saver": "^2.0.5",
         "@types/react": "^18.0.14",
@@ -44,8 +46,6 @@
         "webpack-dev-server": "^4.9.2"
     },
     "dependencies": {
-        "@swc-node/register": "^1.5.1",
-        "@swc/core": "^1.7.26",
         "canvas": "^2.11.2",
         "seedrandom": "^3.0.5"
     }
