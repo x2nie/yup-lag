@@ -45,6 +45,7 @@
     },
     "dependencies": {
         "@swc-node/register": "^1.5.1",
+        "@swc/core": "^1.7.26",
         "canvas": "^2.11.2",
         "seedrandom": "^3.0.5"
     }
