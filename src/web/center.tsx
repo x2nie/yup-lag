@@ -32,7 +32,10 @@ export const ControlPanel = observer(() => {
                                 : `${model.MX}x${model.MY}`}
                             {"  "}
 
-                            seed: <input type="text" className="seed" value={model.seed || ''} onChange={(ev)=>{
+                            seed: <input type="text" className="seed" value={model.seed || ''} 
+                                title="Edit Seed"
+                                disabled={model.running}
+                                onChange={(ev)=>{
                                 model.set_seed(ev.target.value)
                             }} />
                         </p>
