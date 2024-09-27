@@ -14,6 +14,9 @@ const Int32 = {
 const MBIG =  Int32.MaxValue;
 const MSEED = 161803398;
 
+const CLAMPER = new Float32Array(1); // global temporary var to mimic C#'s Double.
+const OneBIGth =  1.0/MBIG;
+
 export class Random {
     //
     // Member Variables
@@ -35,8 +38,8 @@ export class Random {
         }
         Seed = Math.floor(Seed); // = int()Seed
         
-        let ii;
-        let mj, mk;
+        let ii:number;
+        let mj:number, mk:number;
         //Initialize our Seed array.
         //This algorithm comes from Numerical Recipes in C (2nd Ed.)
         let subtraction = (Seed == Int32.MinValue) ? Int32.MaxValue : Math.abs(Seed);
@@ -80,15 +83,28 @@ export class Random {
     protected Sample():number { //Float.double
         //Including this division at the end gives us significantly improved
         //random number distribution.
+
+        //? C# :
         // return (this.InternalSample()*(1.0/MBIG));
-        const jsFloat = this.InternalSample()*(1.0/MBIG);
-        const csharpDouble = jsFloat.toPrecision(15); //got string
-        const n = Number(csharpDouble); // will identical to C# value
-        return n;
+
+        //? Old Implementation & Slow :
+        // const jsFloat = this.InternalSample()*(1.0/MBIG);
+        // const csharpDouble = jsFloat.toPrecision(15); //got string
+        // const n = Number(csharpDouble); // will identical to C# value
+        // return n;
+
+        //? Faster JavaScript & identical to C# :
+        // const f32arr = new Float32Array(1)
+        // f32arr[0] = this.InternalSample()*(1.0/MBIG);
+        // return f32arr[0]
+
+        //? same as above, but with reuse, like its fastest
+        CLAMPER[0] = this.InternalSample()*OneBIGth;
+        return CLAMPER[0]
     }
 
     private InternalSample():number { // int
-        let retVal;
+        let retVal:number;
         let locINext = this.inext;
         let locINextp = this.inextp;
 
