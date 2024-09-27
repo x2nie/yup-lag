@@ -46,7 +46,6 @@
         "webpack-dev-server": "^4.9.2"
     },
     "dependencies": {
-        "canvas": "^2.11.2",
-        "seedrandom": "^3.0.5"
+        "canvas": "^2.11.2"
     }
 }
