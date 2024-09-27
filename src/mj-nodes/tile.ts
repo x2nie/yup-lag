@@ -481,7 +481,7 @@ export class TileNode extends WFCNode {
                                 let max = -1.0;
                                 let argmax = 0xff;
                                 for (let c = 0; c < v.length; c++) {
-                                    const vote = v[c] + 0.1 * rng.NextDouble();
+                                    const vote = v[c] + 0.1 * rng.nextDouble();
                                     if (vote > max) {
                                         argmax = c;
                                         max = vote;

@@ -19,7 +19,7 @@ export class ParallelNode extends RuleNode {
         const grid = this.grid;
 
         const rule = this.rules[r];
-        if (ip.rng.NextDouble() > rule.p) return;
+        if (ip.rng.nextDouble() > rule.p) return;
         this.last |= 1 << r;
         rule.jit_apply_kernel(
             grid.state,

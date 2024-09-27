@@ -248,7 +248,7 @@ export class Model {
     }
 
     public randomize() {
-        this._seed = Math.abs(Program.meta.Next());
+        this._seed = Math.abs(Program.meta.next());
     }
 
     private scaleTime(t: number) {

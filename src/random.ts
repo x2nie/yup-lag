@@ -64,23 +64,23 @@ export class Random {
         // Seed = 1;
     }
 
-    public Next(maxValue:number=0):number {
+    public next(maxValue:number=0):number {
         if(maxValue==0)
-            return this.InternalSample()
+            return this.internalSample()
 
         if (maxValue<0) {
             throw new Error("ArgumentOutOfRange_MustBePositive");
         }
         // Contract.EndContractBlock();
-        return Math.floor(this.Sample()*maxValue);
+        return Math.floor(this.sample()*maxValue);
     }
 
-    public NextDouble():number {
+    public nextDouble():number {
         // return 0.9999
-        return this.Sample();
+        return this.sample();
     }
 
-    protected Sample():number { //Float.double
+    protected sample():number { //Float.double
         //Including this division at the end gives us significantly improved
         //random number distribution.
 
@@ -99,11 +99,11 @@ export class Random {
         // return f32arr[0]
 
         //? same as above, but with reuse, like its fastest
-        CLAMPER[0] = this.InternalSample()*OneBIGth;
+        CLAMPER[0] = this.internalSample()*OneBIGth;
         return CLAMPER[0]
     }
 
-    private InternalSample():number { // int
+    private internalSample():number { // int
         let retVal:number;
         let locINext = this.inext;
         let locINextp = this.inextp;

@@ -197,7 +197,7 @@ export class NativeSearch {
         const push_board = (ptr: number) =>
             frontier.enqueue({
                 v: ptr,
-                p: board_rank(ptr, rng.NextDouble(), dcoeff),
+                p: board_rank(ptr, rng.nextDouble(), dcoeff),
             });
 
         const root_board = new_board(elem);

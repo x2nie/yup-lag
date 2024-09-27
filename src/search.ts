@@ -124,7 +124,7 @@ export class Search {
         const frontier = new PriorityQueue<{ p: number; v: number }>(
             ({ p: p1 }, { p: p2 }) => p1 <= p2
         );
-        const rng = new Random(seed.toString());
+        const rng = new Random(seed);
         frontier.enqueue({ v: 0, p: rootBoard.rank(rng, depthCoefficient) });
 
         let record = rootBackwardEstimate + rootForwardEstimate;
@@ -511,7 +511,7 @@ class Board {
                 : this.forwardEstimate +
                   this.backwardEstimate +
                   2.0 * depthCoefficient * this.depth;
-        return result + 0.0001 * rng.NextDouble();
+        return result + 0.0001 * rng.nextDouble();
     }
 
     // Path trace

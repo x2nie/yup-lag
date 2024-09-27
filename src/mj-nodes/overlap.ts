@@ -246,7 +246,7 @@ export class OverlapNode extends WFCNode {
             const offset = i * cols;
 
             for (let c = 0; c < cols; c++) {
-                const value = buf[offset + c] + 0.1 * rng.NextDouble();
+                const value = buf[offset + c] + 0.1 * rng.nextDouble();
                 if (value > max) {
                     argmax = c;
                     max = value;

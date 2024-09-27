@@ -147,7 +147,7 @@ export abstract class WFCNode extends Branch {
     goodSeed(): number {
         for (let k = 0; k < this.tries; k++) {
             let obs = 0;
-            const seed = this.ip.rng.Next();
+            const seed = this.ip.rng.next();
             this.rng = new Random(seed);
             this.stacksize = 0;
             this.wave.copyFrom(this.startwave, this.shannon);
@@ -197,7 +197,7 @@ export abstract class WFCNode extends Branch {
                         ? wave.entropies[i]
                         : remainingValues;
                     if (remainingValues > 1 && entropy <= min) {
-                        const noise = 1e-6 * rng.NextDouble();
+                        const noise = 1e-6 * rng.nextDouble();
                         if (entropy + noise < min) {
                             min = entropy + noise;
                             argmin = i;
@@ -211,7 +211,7 @@ export abstract class WFCNode extends Branch {
         const w = this.wave.data.row(node);
         for (let t = 0; t < this.P; t++)
             this.distribution[t] = w.get(t) ? this.weights[t] : 0;
-        const r = Helper.sampleWeights(this.distribution, rng.NextDouble());
+        const r = Helper.sampleWeights(this.distribution, rng.nextDouble());
         for (let t = 0; t < this.P; t++)
             if (w.get(t) !== (t === r)) this.ban(node, t);
     }

@@ -112,7 +112,7 @@ export class OneNode extends RuleNode {
                         firstHeuristic = heuristic;
                         firstHeuristicComputed = true;
                     }
-                    const u = rng.NextDouble();
+                    const u = rng.nextDouble();
                     const key =
                         this.temperature > 0
                             ? Math.pow(

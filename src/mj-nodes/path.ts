@@ -92,7 +92,7 @@ export class PathNode extends Node {
         )
             return RunState.FAIL;
 
-        const local = new Random(this.ip.rng.Next());
+        const local = new Random(this.ip.rng.next());
         let min = MX * MY * MZ,
             max = -1;
         let argmin: vec3 = [-1, -1, -1];
@@ -102,7 +102,7 @@ export class PathNode extends Node {
             const g = generations[px + py * MX + pz * MX * MY];
             if (g == -1) continue;
             const dg = g;
-            const noise = 0.1 * local.NextDouble();
+            const noise = 0.1 * local.nextDouble();
 
             if (dg + noise < min) {
                 min = dg + noise;
@@ -217,7 +217,7 @@ export class PathNode extends Node {
             if (inertia && (dx != 0 || dy != 0 || dz != 0)) {
                 let maxScalar = -4;
                 for (const [cx, cy, cz] of candidates) {
-                    const noise = 0.1 * rng.NextDouble();
+                    const noise = 0.1 * rng.nextDouble();
                     const cos =
                         (cx * dx + cy * dy + cz * dz) /
                         Math.sqrt(

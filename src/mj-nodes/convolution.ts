@@ -143,7 +143,7 @@ export class ConvolutionNode extends Node {
                 if (
                     input == rule.input &&
                     rule.output != grid.state[i] &&
-                    (rule.p == 1.0 || this.ip.rng.NextDouble() < rule.p)
+                    (rule.p == 1.0 || this.ip.rng.nextDouble() < rule.p)
                 ) {
                     let success = true;
                     if (rule.sums != null) {

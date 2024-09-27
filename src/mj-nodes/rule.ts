@@ -282,7 +282,7 @@ export abstract class RuleNode extends Node {
                               this instanceof AllNode,
                               this.limit,
                               this.depthCoefficient,
-                              this.ip.rng.Next(),
+                              this.ip.rng.next(),
                               true // viz
                           ).run()
                         : Search.run(
@@ -296,7 +296,7 @@ export abstract class RuleNode extends Node {
                               this instanceof AllNode,
                               this.limit,
                               this.depthCoefficient,
-                              this.ip.rng.Next(),
+                              this.ip.rng.next(),
                               true // viz
                           );
                 }

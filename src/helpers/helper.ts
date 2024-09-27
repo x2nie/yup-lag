@@ -191,7 +191,7 @@ export class Helper {
 }
 
 // exclusive
-export const range = (rng: Random, upper: number) => Math.floor(rng.NextDouble() * upper);
+export const range = (rng: Random, upper: number) => Math.floor(rng.nextDouble() * upper);
 
 export type vec3 = [number, number, number];
 export type vec4 = [number, number, number, number];

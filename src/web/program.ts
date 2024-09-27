@@ -312,7 +312,7 @@ export class Model {
                 const qsSeed = parseInt(qs.get("seed"));
 
                 this._seed = isNaN(qsSeed)
-                    ? seeds?.[0] || Program.meta.Next()
+                    ? seeds?.[0] || Program.meta.next()
                     : qsSeed;
             });
 
@@ -420,7 +420,7 @@ export class Model {
 
     @action
     public randomize() {
-        this._seed = Program.meta.Next();
+        this._seed = Program.meta.next();
     }
 
     private scaleTime(t: number) {
@@ -569,7 +569,7 @@ export class Model {
         );
 
         for (let i = 0; i < runs; i++) {
-            const seed = rng_seed ? Program.meta.Next() : this._seed;
+            const seed = rng_seed ? Program.meta.next() : this._seed;
             const iter = ip?.run(seed, this._steps);
 
             const start = performance.now();
