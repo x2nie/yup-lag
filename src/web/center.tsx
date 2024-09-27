@@ -31,14 +31,10 @@ export const ControlPanel = observer(() => {
                                 ? `${model.MX}x${model.MY}x${model.MZ}`
                                 : `${model.MX}x${model.MY}`}
                             {"  "}
-                            <div id="input-holder">
 
-                            seed: <input type="text" value={model.seed || ''} onChange={(ev)=>{
+                            seed: <input type="text" className="seed" value={model.seed || ''} onChange={(ev)=>{
                                 model.set_seed(ev.target.value)
                             }} />
-                            <button >Set Seed</button>
-                            </div>
-                             |{model.seed}
                         </p>
                         {model.loading ? (
                             <p>loading...</p>
