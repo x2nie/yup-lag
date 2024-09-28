@@ -516,7 +516,6 @@ export class Model {
 
             const [state, chars, FX, FY, FZ] = this.ip.state();
 
-            this.ip.onRender();
             this.renderer.setCharacters(chars);
             this.renderer.update(FX, FY, FZ);
             this.renderer.render(state);
@@ -549,7 +548,6 @@ export class Model {
             if (render) {
                 const [state, chars, FX, FY, FZ] = result.value;
 
-                this.ip.onRender();
                 this.renderer.setCharacters(chars);
                 this.renderer.update(FX, FY, FZ);
                 this.renderer.render(state);
@@ -653,7 +651,6 @@ export class Model {
 
         const [state, chars, FX, FY, FZ] = this.ip.state();
 
-        this.ip.onRender();
         this.renderer.setCharacters(chars);
         this.renderer.update(FX, FY, FZ);
         this.renderer.render(state);

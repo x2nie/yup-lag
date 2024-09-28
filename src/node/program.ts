@@ -289,8 +289,6 @@ export class Model {
 
             const [state, chars, FX, FY, FZ] = this.ip.state();
 
-            this.ip.onRender();
-
             if (FZ > 1) {
                 const colors = chars.split("").map((c) => this.palette.get(c));
 
@@ -310,9 +308,6 @@ export class Model {
 
             if (render) {
                 const [state, chars, FX, FY, FZ] = result.value;
-
-                this.ip.onRender();
-                // TODO: pass state to listener?
             }
         }
     }

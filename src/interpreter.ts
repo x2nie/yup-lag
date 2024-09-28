@@ -2,7 +2,7 @@ import { Random } from "./random";
 import { Grid } from "./grid";
 import { vec3 } from "./helpers/helper";
 import { SymmetryHelper } from "./helpers/symmetry";
-import { Node, Branch, MarkovNode, WFCNode } from "./mj-nodes";
+import { Node, Branch, MarkovNode } from "./mj-nodes";
 
 export class Interpreter {
     public root: Branch;
@@ -91,12 +91,6 @@ export class Interpreter {
         }
 
         yield this.state();
-    }
-
-    public onRender() {
-        if (this.current instanceof WFCNode && this.current.n < 0) {
-            this.current.updateState();
-        }
     }
 
     public state(): [Uint8Array, string, number, number, number] {
