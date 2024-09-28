@@ -11,8 +11,6 @@ export * from "./node";
 /*******/ export * from "./tile";
 /*******/ export * from "./overlap";
 
-export * from "./extensions";
-
 export enum RunState {
     SUCCESS = 0,
     FAIL = 1,

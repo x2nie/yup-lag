@@ -671,12 +671,4 @@ export class Model {
         Program.editor.setValue("");
         Program.editor.resize(true);
     }
-
-    @action
-    public event(name: string, key: string) {
-        const curr = this.ip?.listener;
-        if (!curr) return;
-
-        curr.event(name, key);
-    }
 }

@@ -67,7 +67,6 @@ export abstract class Node {
                 if (elem.getAttribute("tileset")) return new TileNode();
                 return null;
             },
-            ...Node.EXT,
         }[name]();
 
         node.ip = ip;
@@ -96,14 +95,6 @@ export abstract class Node {
         "convchain",
         "wfc",
     ]);
-
-    private static readonly EXT: { [tag: string]: () => Node } = {};
-    public static registerExt(name: string, type: NodeConstructor) {
-        if (this.VALID_TAGS.has(name))
-            throw new Error(`Tag <${name}> already exists`);
-        this.VALID_TAGS.add(name);
-        this.EXT[name] = () => new type();
-    }
 
     public static isValidTag(tag: string) {
         return this.VALID_TAGS.has(tag);

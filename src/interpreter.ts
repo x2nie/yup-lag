@@ -2,12 +2,11 @@ import { Random } from "./random";
 import { Grid } from "./grid";
 import { vec3 } from "./helpers/helper";
 import { SymmetryHelper } from "./helpers/symmetry";
-import { Node, Branch, MarkovNode, WFCNode, EventNode } from "./mj-nodes";
+import { Node, Branch, MarkovNode, WFCNode } from "./mj-nodes";
 
 export class Interpreter {
     public root: Branch;
     public current: Branch;
-    public listener: EventNode;
     public blocking = false;
 
     public grid: Grid;
