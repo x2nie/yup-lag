@@ -86,15 +86,11 @@ export class Interpreter {
             yield this.state();
 
             this.current.run();
-            this.increChanges();
+            this.counter++;
+            this.first.push(this.changes.length);
         }
 
         yield this.state();
-    }
-
-    public increChanges() {
-        this.counter++;
-        this.first.push(this.changes.length);
     }
 
     public onRender() {
