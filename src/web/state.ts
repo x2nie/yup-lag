@@ -17,7 +17,6 @@ import {
     ParallelNode,
     TileNode,
     OverlapNode,
-    AndNode,
 } from "../mj-nodes";
 
 export type NodeWithDepth = {
@@ -96,7 +95,6 @@ export class NodeState<T extends Node = Node> {
 
     // well
     private static factory(node: Node): NodeState {
-        if (node instanceof AndNode) return new AndState(node);
         if (node instanceof MarkovNode) return new MarkovState(node);
         if (node instanceof SequenceNode) return new SequenceState(node);
         if (node instanceof ConvolutionNode) return new ConvolutionState(node);
@@ -142,12 +140,6 @@ export class SequenceState extends BranchState<SequenceNode> {
 export class MarkovState extends BranchState<MarkovNode> {
     get name(): string {
         return "markov";
-    }
-}
-
-export class AndState extends BranchState<AndNode> {
-    get name(): string {
-        return "and";
     }
 }
 

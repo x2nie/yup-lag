@@ -22,7 +22,7 @@ import { Interpreter } from "../interpreter";
 import ModelsXML from "../../static/models.xml";
 import PaletteXML from "../../static/resources/palette.xml";
 import { NodeState, NodeStateInfo } from "./state";
-import { Branch, Node, ScopeNode } from "../mj-nodes";
+import { Branch, Node } from "../mj-nodes";
 import { Optimization } from "../wasm/optimization";
 
 import ace from "ace-builds";
@@ -486,7 +486,7 @@ export class Model {
             }
 
             let cn = br.children[br.n];
-            while (cn instanceof ScopeNode) {
+            while (cn instanceof Branch) {
                 if (cn.n < 0 || cn.n >= br.children.length)
                     return state.node === cn;
                 cn = cn.children[cn.n];

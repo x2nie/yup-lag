@@ -33,7 +33,6 @@ export abstract class Node {
 
     public source: Element & { lineNumber: number; columnNumber: number };
     public comment: string;
-    public sync: boolean;
 
     public ip: Interpreter;
     public grid: Grid;
@@ -54,8 +53,6 @@ export abstract class Node {
             one: () => new OneNode(),
             all: () => new AllNode(),
             prl: () => new ParallelNode(),
-            and: () => new AndNode(),
-            scope: () => new ScopeNode(),
             markov: () => new MarkovNode(),
             sequence: () => new SequenceNode(),
             path: () => new PathNode(),
@@ -73,7 +70,6 @@ export abstract class Node {
         node.grid = grid;
         node.source = <typeof node.source>elem;
         node.comment = elem.getAttribute("comment");
-        node.sync = elem.getAttribute("sync") === "True";
 
         const success = await node.load(elem, symmetry, grid);
         if (!success) console.error(elem, "failed to load");
@@ -85,8 +81,6 @@ export abstract class Node {
         "one",
         "all",
         "prl",
-        "and",
-        "scope",
         "markov",
         "sequence",
         "path",
@@ -155,17 +149,13 @@ export abstract class Branch<T extends Node = Node> extends Node {
         this.children.forEach((n) => n.reset());
         this.n = 0;
     }
-}
 
-export class SequenceNode<T extends Node = Node> extends Branch<T> {
     public override run() {
         for (; this.n < this.children.length; this.n++) {
             const node = this.children[this.n];
 
             if (node instanceof Branch) {
-                if (!(node instanceof ScopeNode)) this.ip.current = node;
-            } else {
-                this.ip.blocking = this.sync || node.sync;
+                this.ip.current = node;
             }
 
             const status = node.run();
@@ -176,6 +166,10 @@ export class SequenceNode<T extends Node = Node> extends Branch<T> {
         this.reset();
         return RunState.FAIL;
     }
+}
+
+export class SequenceNode<T extends Node = Node> extends Branch<T> {
+
 }
 
 export class MarkovNode<T extends Node = Node> extends Branch<T> {
@@ -189,58 +183,6 @@ export class MarkovNode<T extends Node = Node> extends Branch<T> {
 
     public override run() {
         this.n = 0;
-        return SequenceNode.prototype.run.apply(this);
-    }
-}
-
-export class ScopeNode<T extends Node = Node> extends Branch<T> {
-    public override run(): RunState {
-        const { current } = this.ip;
-        for (; this.n < this.children.length; this.n++) {
-            const node = this.children[this.n];
-
-            if (node instanceof Branch) {
-                if (!(node instanceof ScopeNode)) this.ip.current = node;
-            } else {
-                this.ip.blocking = this.sync || node.sync;
-            }
-
-            const status: RunState = node.run();
-            if (status === RunState.SUCCESS || status === RunState.HALT)
-                return status;
-        }
-        this.ip.current = current;
-        while (this.ip.current instanceof ScopeNode)
-            this.ip.current = this.ip.current.parent;
-        this.reset();
-        return RunState.FAIL;
-    }
-}
-
-export class AndNode extends Branch {
-    private nextBreak = true;
-
-    public override run() {
-        for (; this.n < this.children.length; this.n++) {
-            const node = this.children[this.n];
-            if (node instanceof Branch) this.ip.current = node;
-            const status = node.run();
-
-            if (status === RunState.SUCCESS || status === RunState.HALT) {
-                this.nextBreak = false;
-                return status;
-            }
-
-            if (this.nextBreak) break;
-            else this.nextBreak = true;
-        }
-        this.ip.current = this.ip.current.parent;
-        this.reset();
-        return RunState.FAIL;
-    }
-
-    public override reset() {
-        this.nextBreak = true;
-        super.reset();
+        return super.run();
     }
 }

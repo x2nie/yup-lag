@@ -7,7 +7,6 @@ import { Node, Branch, MarkovNode, WFCNode } from "./mj-nodes";
 export class Interpreter {
     public root: Branch;
     public current: Branch;
-    public blocking = false;
 
     public grid: Grid;
     public startgrid: Grid;
@@ -84,7 +83,7 @@ export class Interpreter {
         this.counter = 0;
 
         while (this.current && (steps <= 0 || this.counter < steps)) {
-            if (!this.blocking) yield this.state();
+            yield this.state();
 
             this.current.run();
             this.increChanges();
