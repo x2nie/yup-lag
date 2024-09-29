@@ -34,6 +34,7 @@ export type NodeStateInfo = {
     index: number;
     breakpoint: boolean;
     isLastChild: boolean;
+    // lineNumber?: number;
 };
 
 export class NodeState<T extends Node = Node> {
@@ -71,6 +72,7 @@ export class NodeState<T extends Node = Node> {
                 parentIndex,
                 isLastChild,
                 breakpoint: false,
+                // lineNumber: node.source.lineNumber,
             });
 
             if (node instanceof Branch) {

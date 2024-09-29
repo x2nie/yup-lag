@@ -309,6 +309,7 @@ export class Model {
 
             runInAction(() => {
                 this.nodes = NodeState.traverse(this.ip);
+                // pprint(this.nodes)
                 for (const { state } of this.nodes) state.sync();
 
                 this.renderer.palette = customPalette;
@@ -426,7 +427,10 @@ export class Model {
     @action
     public stepBack() {
         this._paused = true;
-        this.loop(true);
+        const data = this._back()
+        if(data) {
+            this.render(data)
+        }
     }
 
     @action
@@ -582,6 +586,14 @@ export class Model {
         return null
     }
                 
+    private _back(): GridState | null{
+        //? a wrapper for `this._curr.next();` that allow to revert state
+        if (this.history.canUndo())
+            return this.history.undo();
+
+        return null
+    }
+                
     private render(plane:GridState) {
         if (!plane){
             plane = this.ip.state();
@@ -707,4 +719,19 @@ export class Model {
         Program.editor.setValue("");
         Program.editor.resize(true);
     }
+}
+
+function pprint(nodes: NodeStateInfo[]){
+    const ret = []
+    nodes.forEach(n => {
+        let {state, ...rest} = n
+        rest = {...rest}
+        // @ts-ignore
+        rest.tag = state.node.source.tagName;
+        // @ts-ignore
+        rest.parent = state.node.source.parentNode.tagName;
+        ret.push(rest)
+        // debugger
+    })
+    console.table(ret)
 }
