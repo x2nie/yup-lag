@@ -13,6 +13,7 @@ import {
     VoxelPathTracer,
     Renderer,
 } from "../render";
+import { UndoRedo } from "./history";
 
 import { Loader } from "../loader";
 import { Helper } from "../helpers/helper";
@@ -164,6 +165,8 @@ makeObservable(Program);
 Search.onRecordState = NativeSearch.onRecordState = (state) =>
     (Program.instance.renderer.forcedState = state);
 
+type GridState = [Uint8Array, string, number, number, number];
+
 export class Model {
     public readonly key: string;
     public readonly name: string;
@@ -174,13 +177,13 @@ export class Model {
 
     private ip: Interpreter;
     private breakpoints: Set<Node> = new Set();
-
+    
     @observable
     public renderer: Renderer;
-
+    
     @observable
-    private _curr: Generator<[Uint8Array, string, number, number, number]> =
-        null;
+    private _curr: Generator<GridState> = null;
+    private history:UndoRedo<GridState>;
 
     @observable
     private _seed: number = null;
@@ -216,6 +219,7 @@ export class Model {
 
     constructor(key: string) {
         this.key = key;
+        this.history = new UndoRedo<GridState>(10);
 
         if (!Program.palette) {
             console.error("Load palette first before running any model");
@@ -376,9 +380,7 @@ export class Model {
 
     @action
     public start(params?: ProgramParams) {
-        try {
-            if (this._curr) this._curr.throw(new Error("Interrupt"));
-        } catch {}
+        if (this._curr) this._curr.throw(new Error("Interrupt"));
 
         this._curr = null;
         this.output = null;
@@ -415,6 +417,12 @@ export class Model {
 
     @action
     public step() {
+        this._paused = true;
+        this.loop(true);
+    }
+
+    @action
+    public stepBack() {
         this._paused = true;
         this.loop(true);
     }
@@ -549,6 +557,11 @@ export class Model {
             this.render(result.value)
         }
     }
+
+    private _next(){
+        //? a wrapper for `this._curr.next();` that allow to revert state
+        this._curr.next();
+    }
                 
     private render(plane:any) {
         const [state, chars, FX, FY, FZ] = plane;
@@ -652,12 +665,13 @@ export class Model {
 
         if (!this.ip) return;
 
-        const [state, chars, FX, FY, FZ] = this.ip.state();
+        // const [state, chars, FX, FY, FZ] = this.ip.state();
 
-        this.renderer.setCharacters(chars);
-        this.renderer.update(FX, FY, FZ);
-        this.renderer.render(state);
-        this.rendered++;
+        // this.renderer.setCharacters(chars);
+        // this.renderer.update(FX, FY, FZ);
+        // this.renderer.render(state);
+        // this.rendered++;
+        this.render(this.ip.state())
     }
 
     @action

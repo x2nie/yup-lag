@@ -77,6 +77,12 @@ export const ControlPanel = observer(() => {
                                     <i className="fa-solid fa-forward-step"></i>
                                 </button>
                                 <button
+                                    onClick={() => model.stepBack()}
+                                    data-tip="Back"
+                                >
+                                    <i className="fa-solid fa-backward-step"></i>
+                                </button>
+                                <button
                                     onClick={() => model.randomize()}
                                     disabled={model.running}
                                     data-tip="Randomize Seed"
