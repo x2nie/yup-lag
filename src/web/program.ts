@@ -316,11 +316,12 @@ export class Model {
                     : qsSeed;
             });
 
-            const [state, chars, FX, FY, FZ] = this.ip.state();
+            // const [state, chars, FX, FY, FZ] = this.ip.state();
 
-            this.renderer.setCharacters(chars);
-            this.renderer.update(FX, FY, FZ);
-            this.renderer.render(state);
+            // this.renderer.setCharacters(chars);
+            // this.renderer.update(FX, FY, FZ);
+            // this.renderer.render(state);
+            this.render(this.ip.state())
 
             return true;
         })();
@@ -514,25 +515,26 @@ export class Model {
         if (result.done) {
             this._curr = null;
 
-            const [state, chars, FX, FY, FZ] = this.ip.state();
+            // const [state, chars, FX, FY, FZ] = this.ip.state();
 
-            this.renderer.setCharacters(chars);
-            this.renderer.update(FX, FY, FZ);
-            this.renderer.render(state);
-            this.rendered++;
+            // this.renderer.setCharacters(chars);
+            // this.renderer.update(FX, FY, FZ);
+            // this.renderer.render(state);
+            // this.rendered++;
+            this.render(this.ip.state())
 
-            if (FZ > 1) {
-                const palette = this.renderer.palette;
-                const colors = chars.split("").map((c) => palette.get(c));
+            // if (FZ > 1) {
+            //     const palette = this.renderer.palette;
+            //     const colors = chars.split("").map((c) => palette.get(c));
 
-                this.output = {
-                    name: `${this.name}_${this._seed}.vox`,
-                    buffer: VoxHelper.serialize(state, FX, FY, FZ, colors),
-                };
-            }
+            //     this.output = {
+            //         name: `${this.name}_${this._seed}.vox`,
+            //         buffer: VoxHelper.serialize(state, FX, FY, FZ, colors),
+            //     };
+            // }
 
-            console.log(`Time: ${this._timer.toFixed(2)}ms`);
-            console.log(`Steps(maybe): ${this.rendered} ${state.length}`);
+            // console.log(`Time: ${this._timer.toFixed(2)}ms`);
+            // console.log(`Steps(maybe): ${this.rendered} ${state.length}`);
             this.rendered = 0;
         } else {
             if (!once)
@@ -544,16 +546,17 @@ export class Model {
                     : requestAnimationFrame(() =>
                           runInAction(() => this.loop())
                       );
-
-            {
-                const [state, chars, FX, FY, FZ] = result.value;
-
-                this.renderer.setCharacters(chars);
-                this.renderer.update(FX, FY, FZ);
-                this.renderer.render(state);
-                this.rendered++;
-            }
+            this.render(result.value)
         }
+    }
+                
+    private render(plane:any) {
+        const [state, chars, FX, FY, FZ] = plane;
+
+        this.renderer.setCharacters(chars);
+        this.renderer.update(FX, FY, FZ);
+        this.renderer.render(state);
+        this.rendered++;
     }
 
     public async benchmark(runs = 10, rng_seed = true) {
