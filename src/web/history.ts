@@ -1,41 +1,42 @@
 export class UndoRedo<T> {
     private maxSize: number;
-    private stack: T[];       // Array untuk menyimpan history
+    private undoStack: T[];       // Array untuk menyimpan history
     private redoStack: T[];   // Array untuk menyimpan redo history
 
     constructor(maxSize: number = 100) {
         this.maxSize = maxSize;
-        this.stack = [];
+        this.undoStack = [];
         this.redoStack = [];
     }
 
     // Tambahkan item baru ke history dan kosongkan redoStack
     add(item: T): void {
-        if (this.stack.length >= this.maxSize) {
-            this.stack.shift(); // Hapus item pertama jika sudah mencapai maxSize
+        if (this.undoStack.length >= this.maxSize) {
+            this.undoStack.shift(); // Hapus item pertama jika sudah mencapai maxSize
         }
-        this.stack.push(JSON.parse(JSON.stringify(item))); // Menyimpan salinan item
+        this.undoStack.push(clone(item)); // Menyimpan salinan item
         this.redoStack = []; // Kosongkan redoStack
     }
 
     // Undo: Ambil item terakhir dan pindahkan ke redoStack
     undo(): T | null {
-        if (this.stack.length === 0) return null;
-        const lastItem = this.stack.pop() as T;
-        this.redoStack.push(JSON.parse(JSON.stringify(lastItem)));
-        return this.stack.length > 0 ? this.stack[this.stack.length - 1] : null;
+        if (this.undoStack.length === 0) return null;
+        const lastItem = this.undoStack.pop() as T;
+        this.redoStack.push(clone(lastItem));
+        return lastItem
+        // return this.stack.length > 0 ? this.stack[this.stack.length - 1] : null;
     }
 
     // Redo: Ambil item terakhir dari redoStack dan tambahkan kembali ke stack
     redo(): T | null {
         if (this.redoStack.length === 0) return null;
         const redoItem = this.redoStack.pop() as T;
-        this.stack.push(JSON.parse(JSON.stringify(redoItem)));
+        this.undoStack.push(clone(redoItem));
         return redoItem;
     }
 
     canUndo():boolean {
-        return this.stack.length > 0
+        return this.undoStack.length > 0
     }
 
     canRedo():boolean {
@@ -44,26 +45,29 @@ export class UndoRedo<T> {
 
     // Lihat item terakhir tanpa menghapusnya
     peek(): T | undefined {
-        return this.stack[this.stack.length - 1];
+        return this.undoStack[this.undoStack.length - 1];
     }
 
     // Mengecek apakah history kosong
     isEmpty(): boolean {
-        return this.stack.length === 0;
+        return this.undoStack.length === 0;
     }
 
     // Mendapatkan panjang history
     getSize(): number {
-        return this.stack.length;
+        return this.undoStack.length;
     }
 
     // Menghapus semua history
     clear(): void {
-        this.stack = [];
+        this.undoStack = [];
         this.redoStack = [];
     }
 }
 
+function clone<T>(o:T):T {
+    return JSON.parse(JSON.stringify(o))
+}
 /*
 // Fungsi untuk menampilkan matrix 3x3 dengan baik
 function printMatrix(matrix: number[][]): void {
