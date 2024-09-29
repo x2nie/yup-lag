@@ -267,14 +267,14 @@ export class Model {
 
         let result = this._curr.next();
         let dt = this.lastLoop ? start - this.lastLoop : 0;
-        this.ip.time += this.scaleTime(dt);
+        // this.ip.time += this.scaleTime(dt);
 
         if (!once && this._speed > 0 && dt <= 20) {
             for (let i = 0; i < this._speed; i++) {
                 result = this._curr.next();
 
                 dt = performance.now() - start;
-                this.ip.time += this.scaleTime(dt);
+                // this.ip.time += this.scaleTime(dt);
                 // Cap per frame execution to 20ms/50fps
                 if (dt > 20) break;
             }

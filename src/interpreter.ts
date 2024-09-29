@@ -13,7 +13,7 @@ export class Interpreter {
 
     origin: boolean;
     public rng: Random;
-    public time = 0;
+    // public time = 0;
 
     public readonly changes: vec3[] = [];
     public readonly first: number[] = [];
@@ -76,7 +76,7 @@ export class Interpreter {
         this.first.splice(0, this.first.length);
         this.first.push(0);
 
-        this.time = 0;
+        // this.time = 0;
         this.root.reset();
         this.current = this.root;
 
