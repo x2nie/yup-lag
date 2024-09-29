@@ -23,7 +23,7 @@ import { Interpreter } from "../interpreter";
 import ModelsXML from "../../static/models.xml";
 import PaletteXML from "../../static/resources/palette.xml";
 import { NodeState, NodeStateInfo } from "./state";
-import { Branch, Node } from "../mj-nodes";
+import { Branch, Node, WFCNode } from "../mj-nodes";
 import { Optimization } from "../wasm/optimization";
 
 import ace from "ace-builds";
@@ -574,10 +574,17 @@ export class Model {
         } else {
             if(this._curr){
                 let result = this._curr.next();
+
+                //? from ip moved here. old: this.ip.onRender()
+                const current = this.ip.current;
+                if (current instanceof WFCNode && current.n < 0) {
+                    current.updateState();
+                }
+
                 if (result.done) {
                     this._curr = null;
                 } else {
-                    this.history.add(result.value)
+                    this.history.add(result.value); // the later undo
                     return result.value
                 }
             }
