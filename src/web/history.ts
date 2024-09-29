@@ -34,6 +34,14 @@ export class UndoRedo<T> {
         return redoItem;
     }
 
+    canUndo():boolean {
+        return this.stack.length > 0
+    }
+
+    canRedo():boolean {
+        return this.redoStack.length > 0
+    }
+
     // Lihat item terakhir tanpa menghapusnya
     peek(): T | undefined {
         return this.stack[this.stack.length - 1];

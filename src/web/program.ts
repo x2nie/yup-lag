@@ -183,7 +183,8 @@ export class Model {
     
     @observable
     private _curr: Generator<GridState> = null;
-    private history:UndoRedo<GridState>;
+
+    public history:UndoRedo<GridState>;
 
     @observable
     private _seed: number = null;
@@ -384,6 +385,7 @@ export class Model {
 
         this._curr = null;
         this.output = null;
+        this.history.clear()
 
         if (this.loading) return Promise.resolve(false);
         this.loading = true;
@@ -464,14 +466,16 @@ export class Model {
                 return false;
             });
 
-        let result = this._curr.next();
+        // let result = this._curr.next();
+        let result = this._next();
         let dt = this.lastLoop ? start - this.lastLoop : 0;
         // this.ip.time += this.scaleTime(dt);
         const bp = checkBreakpoint();
 
         if (!bp && !once && this._speed > 0 && dt <= 20) {
             for (let i = 0; i < this._speed; i++) {
-                result = this._curr.next();
+                // result = this._curr.next();
+                result = this._next();
                 if (checkBreakpoint()) break;
 
                 dt = performance.now() - start;
@@ -520,8 +524,8 @@ export class Model {
             }
         }
 
-        if (result.done) {
-            this._curr = null;
+        // if (result.done) {
+            // this._curr = null;
 
             // const [state, chars, FX, FY, FZ] = this.ip.state();
 
@@ -529,7 +533,8 @@ export class Model {
             // this.renderer.update(FX, FY, FZ);
             // this.renderer.render(state);
             // this.rendered++;
-            this.render(this.ip.state())
+            // this.render(this.ip.state())
+            // this.render(result)
 
             // if (FZ > 1) {
             //     const palette = this.renderer.palette;
@@ -543,9 +548,9 @@ export class Model {
 
             // console.log(`Time: ${this._timer.toFixed(2)}ms`);
             // console.log(`Steps(maybe): ${this.rendered} ${state.length}`);
-            this.rendered = 0;
-        } else {
-            if (!once)
+            // this.rendered = 0;
+        // } else {
+            if (!once && result)
                 this._delay
                     ? setTimeout(
                           () => runInAction(() => this.loop()),
@@ -554,16 +559,33 @@ export class Model {
                     : requestAnimationFrame(() =>
                           runInAction(() => this.loop())
                       );
-            this.render(result.value)
-        }
+            this.render(result)
+        // }
     }
 
-    private _next(){
+    private _next(): GridState | null{
         //? a wrapper for `this._curr.next();` that allow to revert state
-        this._curr.next();
+        if (this.history.canRedo()){
+            return this.history.redo()
+        } else {
+            if(this._curr){
+                let result = this._curr.next();
+                if (result.done) {
+                    this._curr = null;
+                } else {
+                    this.history.add(result.value)
+                    return result.value
+                }
+            }
+        }
+
+        return null
     }
                 
-    private render(plane:any) {
+    private render(plane:GridState) {
+        if (!plane){
+            plane = this.ip.state();
+        }
         const [state, chars, FX, FY, FZ] = plane;
 
         this.renderer.setCharacters(chars);
