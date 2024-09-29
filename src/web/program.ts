@@ -220,7 +220,7 @@ export class Model {
 
     constructor(key: string) {
         this.key = key;
-        this.history = new UndoRedo<GridState>(10);
+        this.history = new UndoRedo<GridState>(20);
 
         if (!Program.palette) {
             console.error("Load palette first before running any model");
@@ -574,6 +574,8 @@ export class Model {
         } else {
             if(this._curr){
                 let result = this._curr.next();
+                // console.log(this.ip.first)
+                // console.log(this.ip.changes)
 
                 //? from ip moved here. old: this.ip.onRender()
                 const current = this.ip.current;

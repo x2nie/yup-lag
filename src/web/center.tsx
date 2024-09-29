@@ -72,12 +72,14 @@ export const ControlPanel = observer(() => {
                                 )}
                                 <button
                                     onClick={() => model.step()}
+                                    disabled={!(model.running || model.history.canRedo())}
                                     data-tip="Step"
-                                >
+                                    >
                                     <i className="fa-solid fa-forward-step"></i>
                                 </button>
                                 <button
                                     onClick={() => model.stepBack()}
+                                    disabled={!(model.history.canUndo())}
                                     data-tip="Back"
                                 >
                                     <i className="fa-solid fa-backward-step"></i>
