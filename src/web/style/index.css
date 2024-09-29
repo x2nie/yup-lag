@@ -17,6 +17,7 @@ body,
         sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
     color: aliceblue;
     background-color: #222;
+    background-color: #333844;
     touch-action: none;
 }
 
@@ -122,7 +123,7 @@ h1 {
 #controls {
     align-self: center;
     text-align: center;
-    background-color: rgba(34, 34, 34, 0.5);
+    /* background-color: rgba(34, 34, 34, 0.5); */
     padding-bottom: 20px;
 }
 
@@ -278,7 +279,9 @@ input[type="color"]::-webkit-color-swatch {
     overflow-x: hidden;
     overflow-y: scroll;
     padding: 25px;
+    padding-top: 0px;
     position: relative;
+    border: 1px solid rgb(94, 94, 94);
 }
 
 .tooltip {
@@ -383,6 +386,11 @@ input[type="color"]::-webkit-color-swatch {
     --size: 1vw;
 }
 
+label {
+    margin: 5px 0;
+}
+
+
 .rule i[data-active] {
     color: #eee;
     opacity: 0.5;
@@ -436,17 +444,15 @@ input[type="color"]::-webkit-color-swatch {
 
 .rule > .grid > table {
     position: absolute;
+    /* border: 1px solid gray; */
+    box-shadow: 1px 2px 3px rgba(0, 0, 0, .50);
 }
 
 .rule:last-child {
     margin-bottom: 10px;
 }
 
-.rule td[data-transparent="true"] {
-    background-color: transparent !important;
-    border-style: dashed;
-    border-color: rgba(238, 238, 238, 0.5);
-}
+
 
 .rule td,
 .field td,
@@ -458,9 +464,19 @@ input[type="color"]::-webkit-color-swatch {
     min-width: var(--size);
     max-height: var(--size);
     aspect-ratio: 1 / 1;
-    border: solid #eee 1px;
+    border: 1px solid gray;
     margin: 0px;
     padding: 0px;
+}
+
+.rule td[data-transparent="true"] {
+    background-color: transparent !important;
+    border-style: dashed;
+    border-color: rgba(238, 238, 238, 0.5);
+    /* border-width: 2px; */
+    border-style: dotted;
+    /* border-width: 1px; */
+    box-shadow: inset 2px 2px 3px rgba(0, 0, 0, .50);
 }
 
 .rule > label {
