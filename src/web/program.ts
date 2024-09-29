@@ -429,7 +429,7 @@ export class Model {
         } else return t;
     }
 
-    private loop(once = false, render = true) {
+    private loop(once = false) {
         if (!once && this._paused) return;
 
         const start = performance.now();
@@ -545,7 +545,7 @@ export class Model {
                           runInAction(() => this.loop())
                       );
 
-            if (render) {
+            {
                 const [state, chars, FX, FY, FZ] = result.value;
 
                 this.renderer.setCharacters(chars);
