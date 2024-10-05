@@ -202,7 +202,7 @@ export class Model {
     private default3DrenderType = VoxelPathTracer.supported
         ? "voxel"
         : "isometric";
-    private rendered = 0;
+    public rendered = 0;
     private lastLoop = 0;
 
     @observable
@@ -327,7 +327,8 @@ export class Model {
             // this.renderer.setCharacters(chars);
             // this.renderer.update(FX, FY, FZ);
             // this.renderer.render(state);
-            this.render(this.ip.state())
+            this.render(this.ip.state());
+            this.rendered = 0;
 
             return true;
         })();

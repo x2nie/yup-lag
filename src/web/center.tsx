@@ -38,6 +38,7 @@ export const ControlPanel = observer(() => {
                                 onChange={(ev)=>{
                                 model.set_seed(ev.target.value)
                             }} />
+                            {model.rendered}
                         </p>
                         {model.loading ? (
                             <p>loading...</p>
