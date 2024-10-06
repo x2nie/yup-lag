@@ -1,25 +1,38 @@
 {
     "compilerOptions": {
-        "experimentalDecorators": true,
-        "outDir": "./dist",
-        "rootDir": ".",
-        "target": "ES2020",
-        "lib": ["dom", "esnext", "ES2020.Promise"],
-        "noImplicitReturns": true,
-        "allowJs": true,
+        "module": "commonjs",
+        "target": "es2020",
+		"lib": [
+			"es2021"
+		],
+        // "experimentalDecorators": true,
+        "outDir": "out",
+        "rootDir": "src",
+        "sourceMap": true,
+		// "strict": true,
+        // "target": "ES2020",
+        // "lib": ["dom", "esnext", "ES2020.Promise"],
+        // "noImplicitReturns": true,
+        // "allowJs": true,
         "skipLibCheck": true,
-        "esModuleInterop": true,
-        "allowSyntheticDefaultImports": true,
+        // "esModuleInterop": true,
+        // "allowSyntheticDefaultImports": true,
         "strict": false,
         "forceConsistentCasingInFileNames": true,
         "noFallthroughCasesInSwitch": true,
-        "module": "es2020",
-        "moduleResolution": "node",
-        "resolveJsonModule": true,
-        "isolatedModules": true,
-        "noEmit": true,
+        // "module": "es2020",
+        // "moduleResolution": "node",
+        // "resolveJsonModule": true,
         "jsx": "react-jsx",
-        "downlevelIteration": true
+        // "downlevelIteration": true
     },
-    "include": ["src/"]
+    // "include": ["src/"]
+    "exclude": [
+		"node_modules",
+		"static",
+        "src/wasm",
+        "src/web",
+        "src/render",
+		".vscode-test"
+	]
 }

@@ -1,11 +1,11 @@
 import { Random } from "../random";
-import {
-    action,
-    computed,
-    makeObservable,
-    observable,
-    runInAction,
-} from "mobx";
+// import {
+//     action,
+//     computed,
+//     //makeObservable,
+//     observable,
+//     runInAction,
+// } from "mobx";
 
 import {
     BitmapRenderer,
@@ -91,13 +91,13 @@ class DebugLineHighlighter implements ace.Ace.MarkerLike {
 }
 
 export class Program {
-    @observable.ref
+    //@observable.ref
     public static instance: Model = null;
 
-    @observable
+    //@observable
     public static models: Map<string, Element> = new Map();
 
-    @observable
+    //@observable
     public static palette: Map<string, Uint8ClampedArray> = new Map();
 
     public static meta = new Random();
@@ -113,7 +113,7 @@ export class Program {
     public static readonly debugLineHighlighter = new DebugLineHighlighter();
 
 
-    @action
+    //@action
     public static loadPalette() {
         const ep = Loader.xmlParse(PaletteXML);
         const ecolors = [...Helper.childrenByTag(ep, "color")];
@@ -125,28 +125,28 @@ export class Program {
         );
     }
 
-    @action
-    public static listModels() {
-        const doc = Loader.xmlParse(ModelsXML);
-        this.models.clear();
+    //@action
+    // public static listModels() {
+    //     const doc = Loader.xmlParse(ModelsXML);
+    //     this.models.clear();
 
-        for (const emodel of Helper.childrenByTag(doc, "model")) {
-            const name = emodel.getAttribute("name")?.toUpperCase() || "MODEL";
+    //     for (const emodel of Helper.childrenByTag(doc, "model")) {
+    //         const name = emodel.getAttribute("name")?.toUpperCase() || "MODEL";
 
-            const tryInsert = (suffix: number = null) => {
-                const n = suffix === null ? name : `${name}_${suffix}`;
+    //         const tryInsert = (suffix: number = null) => {
+    //             const n = suffix === null ? name : `${name}_${suffix}`;
 
-                if (!this.models.has(n)) {
-                    this.models.set(n, emodel);
-                } else tryInsert(suffix ? suffix + 1 : 1);
-            };
+    //             if (!this.models.has(n)) {
+    //                 this.models.set(n, emodel);
+    //             } else tryInsert(suffix ? suffix + 1 : 1);
+    //         };
 
-            runInAction(tryInsert);
-        }
-    }
+    //         runInAction(tryInsert);
+    //     }
+    // }
 
     public static load(name: string) {
-        return runInAction(() => {
+        // return runInAction(() => {
             if (this.instance) {
                 this.instance.stop();
                 this.instance = null;
@@ -156,11 +156,11 @@ export class Program {
             if (!model.load()) return null;
             this.instance = model;
             return model;
-        });
+        // });
     }
 }
 
-makeObservable(Program);
+// makeObservable(Program);
 
 Search.onRecordState = NativeSearch.onRecordState = (state) =>
     (Program.instance.renderer.forcedState = state);
@@ -178,21 +178,21 @@ export class Model {
     private ip: Interpreter;
     private breakpoints: Set<Node> = new Set();
     
-    @observable
+    //@observable
     public renderer: Renderer;
     
-    @observable
+    //@observable
     private _curr: Generator<GridState> = null;
 
     public history:UndoRedo<GridState>;
 
-    @observable
+    //@observable
     private _seed: number = null;
-    @observable
+    //@observable
     private _speed = 0;
-    @observable
+    //@observable
     private _delay = 0;
-    @observable
+    //@observable
     private _paused = false;
 
     private _loadPromise: Promise<boolean>;
@@ -205,15 +205,15 @@ export class Model {
     public rendered = 0;
     private lastLoop = 0;
 
-    @observable
+    //@observable
     public loading = false;
 
-    @observable
+    //@observable
     public output: ProgramOutput = null;
 
-    @observable.deep
+    //@observable.deep
     public nodes: NodeStateInfo[] = [];
-    @observable
+    //@observable
     public curr_node_index = -1;
 
     public readonly DIM = new Int32Array([-1, -1, -1]);
@@ -307,7 +307,7 @@ export class Model {
                 this.DIM[2]
             );
 
-            runInAction(() => {
+            // runInAction(() => {
                 this.nodes = NodeState.traverse(this.ip);
                 // pprint(this.nodes)
                 for (const { state } of this.nodes) state.sync();
@@ -320,7 +320,7 @@ export class Model {
                 this._seed = isNaN(qsSeed)
                     ? seeds?.[0] || Program.meta.next()
                     : qsSeed;
-            });
+            // });
 
             // const [state, chars, FX, FY, FZ] = this.ip.state();
 
@@ -333,20 +333,20 @@ export class Model {
             return true;
         })();
 
-        makeObservable(this);
+        //makeObservable(this);
     }
 
-    @action
+    //@action
     public debug() {
         debugger;
     }
 
-    @action
+    //@action
     public load() {
         return this._loadPromise;
     }
 
-    @computed
+    //@computed
     public get paused() {
         return this._paused;
     }
@@ -361,27 +361,27 @@ export class Model {
         }
     }
 
-    @computed
+    //@computed
     public get speed() {
         return this._delay ? -this._delay : this._speed;
     }
 
-    @computed
+    //@computed
     public get running() {
         return !!this._curr;
     }
 
-    @computed
+    //@computed
     public get seed() {
         return this._seed;
     }
 
-    @action
+    //@action
     public set_seed(seed:number|string) {
         this._seed = Number(seed)
     }
 
-    @action
+    //@action
     public start(params?: ProgramParams) {
         if (this._curr) this._curr.throw(new Error("Interrupt"));
 
@@ -397,35 +397,35 @@ export class Model {
 
             this._steps = params?.steps || -1;
 
-            runInAction(() => {
+            // runInAction(() => {
                 this.loading = false;
                 this._timer = 0;
                 this._paused = false;
                 this.loop();
-            });
+            // });
 
             return true;
         });
     }
 
-    @action
+    //@action
     public pause() {
         this._paused = true;
     }
 
-    @action
+    //@action
     public resume() {
         this._paused = false;
         this.loop();
     }
 
-    @action
+    //@action
     public step() {
         this._paused = true;
         this.loop(true);
     }
 
-    @action
+    //@action
     public stepBack() {
         this._paused = true;
         const data = this._back()
@@ -434,7 +434,7 @@ export class Model {
         }
     }
 
-    @action
+    //@action
     public randomize() {
         this._seed = Program.meta.next();
     }
@@ -454,7 +454,8 @@ export class Model {
         if (!this._curr) return;
 
         const checkBreakpoint = () =>
-            runInAction(() => {
+            {
+            // runInAction(() => {
                 if (once) return false;
 
                 const br = this.ip.current;
@@ -469,7 +470,8 @@ export class Model {
                     return true;
                 }
                 return false;
-            });
+            // });
+            }
 
         // let result = this._curr.next();
         let result = this._next();
@@ -558,11 +560,16 @@ export class Model {
             if (!once && result)
                 this._delay
                     ? setTimeout(
-                          () => runInAction(() => this.loop()),
+                        //   () => runInAction(() => this.loop()),
+                        //   this._delay
+                        () => {
+                            this.loop()
+                        },
                           this._delay
                       )
                     : requestAnimationFrame(() =>
-                          runInAction(() => this.loop())
+                        //   runInAction(() => this.loop())
+                        this.loop()
                       );
             this.render(result)
         // }
@@ -648,22 +655,22 @@ export class Model {
         }
     }
 
-    @computed
+    //@computed
     public get MX() {
         return this.DIM[0];
     }
 
-    @computed
+    //@computed
     public get MY() {
         return this.DIM[1];
     }
 
-    @computed
+    //@computed
     public get MZ() {
         return this.DIM[2];
     }
 
-    @computed
+    //@computed
     public get renderType() {
         const r = this.renderer;
 
@@ -674,7 +681,7 @@ export class Model {
         return null;
     }
 
-    @action
+    //@action
     public toggleBreakpoint(index: number) {
         const node = this.nodes[index];
         // console.log('Breakpoint: nodeIndex:',index, 'Node:',node)
@@ -692,7 +699,7 @@ export class Model {
         }
     }
 
-    @action
+    //@action
     public toggleRender(type: "isometric" | "voxel") {
         const palette = this.renderer.palette;
 
@@ -718,7 +725,7 @@ export class Model {
         this.render(this.ip.state())
     }
 
-    @action
+    //@action
     public stop() {
         this.pause();
         this.renderer.dispose();

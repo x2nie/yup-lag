@@ -2,7 +2,7 @@ import { Renderer } from "./abstract";
 import regl from "regl";
 import { Vixel } from "./lib/vixel";
 import CameraRotator from "./lib/input";
-import { makeObservable, override } from "mobx";
+// import { makeObservable, override } from "mobx";
 import { Loader } from "../loader";
 
 export class VoxelPathTracer extends Renderer {
@@ -31,7 +31,7 @@ export class VoxelPathTracer extends Renderer {
     private static readonly cam_ctrl = new CameraRotator(this.canvas);
 
     public static supported = false;
-    public static readonly colorType: "float" | "half float" = (() => {
+    public static readonly colorType: "float" | "half float" | null = (() => {
         if (
             this.gfx.hasExtension("OES_texture_float") &&
             this.gfx.hasExtension("WEBGL_color_buffer_float")
@@ -71,7 +71,7 @@ export class VoxelPathTracer extends Renderer {
         this.vixel = new Vixel(
             this.canvas,
             VoxelPathTracer.gfx,
-            VoxelPathTracer.colorType
+            VoxelPathTracer.colorType!
         );
         VoxelPathTracer.cam_ctrl.camera = this.vixel.camera;
 
@@ -82,7 +82,7 @@ export class VoxelPathTracer extends Renderer {
         this.clear();
         this.raf = requestAnimationFrame(() => this.loop());
 
-        makeObservable(this);
+        //makeObservable(this);
     }
 
     private loop() {
@@ -91,13 +91,13 @@ export class VoxelPathTracer extends Renderer {
         this.raf = requestAnimationFrame(() => this.loop());
     }
 
-    @override
+    // @override
     public override setCharacters(chars: string) {
         super.setCharacters(chars);
         this.updateMaterial();
     }
 
-    @override
+    // @override
     public override updateColors() {
         super.updateColors();
         this.updateMaterial();

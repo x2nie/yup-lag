@@ -1,13 +1,13 @@
-import { action, computed, makeObservable, observable } from "mobx";
+// import { action, computed, makeObservable, observable } from "mobx";
 import { Helper } from "../helpers/helper";
 
 export abstract class Renderer {
-    @observable
+    // @observable
     private _chars = "";
 
-    @observable
+    // @observable
     public palette: Map<string, Uint8ClampedArray> = new Map();
-    @observable.ref
+    // @observable.ref
     protected colors = new Uint8Array();
 
     private _cache: Uint8Array;
@@ -15,19 +15,19 @@ export abstract class Renderer {
 
     public abstract get canvas(): HTMLCanvasElement;
 
-    @computed
+    // @computed
     get colorHex() {
         return Array.from({ length: this.colors.length >> 2 }, (_, k) =>
             Helper.rgb2hex(this.colors.subarray(k << 2, (k << 2) + 4))
         );
     }
 
-    @computed
+    // @computed
     get characters() {
         return this._chars;
     }
 
-    @action
+    // @action
     setCharacters(chars: string) {
         if (this._chars !== chars) {
             this._chars = chars;
@@ -35,12 +35,12 @@ export abstract class Renderer {
         }
     }
 
-    @action
+    // @action
     public updateSymbol(k: string, rgba: Uint8ClampedArray) {
         this.palette.set(k, rgba);
     }
 
-    @action
+    // @action
     public updateColors() {
         const colorArr = this._chars.split("").map((c) => this.palette.get(c));
         this.colors = new Uint8Array(colorArr.length * 4);
@@ -67,6 +67,6 @@ export abstract class Renderer {
     abstract dispose(): void;
 
     constructor() {
-        makeObservable(this);
+        // makeObservable(this);
     }
 }

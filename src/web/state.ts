@@ -1,4 +1,4 @@
-import { action, makeObservable, observable, override } from "mobx";
+// import { action, makeObservable, observable, override } from "mobx";
 import { Helper } from "../helpers/helper";
 import { Interpreter } from "../interpreter";
 import {
@@ -39,13 +39,13 @@ export type NodeStateInfo = {
 
 export class NodeState<T extends Node = Node> {
     public node: T;
-    @observable
+    //@observable
     public isCurrent: boolean;
 
     constructor(node: T) {
         this.node = node;
         this.isCurrent = false;
-        makeObservable(this);
+        //makeObservable(this);
     }
 
     public static traverse(ip: Interpreter) {
@@ -112,7 +112,7 @@ export class NodeState<T extends Node = Node> {
         return new NodeState(node);
     }
 
-    @action
+    //@action
     sync() {}
 
     get name(): string {
@@ -121,15 +121,15 @@ export class NodeState<T extends Node = Node> {
 }
 
 abstract class BranchState<T extends Branch> extends NodeState<T> {
-    @observable
+    //@observable
     public index: number;
 
     constructor(node: T) {
         super(node);
-        makeObservable(this);
+        //makeObservable(this);
     }
 
-    @override
+    //@override
     override sync() {}
 }
 
@@ -146,17 +146,17 @@ export class MarkovState extends BranchState<MarkovNode> {
 }
 
 export class ConvChainState extends NodeState<ConvChainNode> {
-    @observable
+    //@observable
     public steps = -1;
-    @observable
+    //@observable
     public counter = 0;
-    @observable
+    //@observable
     public c0: number;
-    @observable
+    //@observable
     public c1: number;
-    @observable
+    //@observable
     public SMX: number;
-    @observable
+    //@observable
     public SMY: number;
 
     public readonly sample: Uint8Array;
@@ -176,10 +176,10 @@ export class ConvChainState extends NodeState<ConvChainNode> {
         this.sample = new Uint8Array(this.node.sample.length);
         this.sample.set(this.node.sample);
 
-        makeObservable(this);
+        //makeObservable(this);
     }
 
-    @override
+    //@override
     sync() {
         this.node.steps = this.steps;
 
@@ -191,9 +191,9 @@ export class ConvChainState extends NodeState<ConvChainNode> {
 }
 
 export class ConvolutionState extends NodeState<ConvolutionNode> {
-    @observable
+    //@observable
     public steps = -1;
-    @observable
+    //@observable
     public counter = 0;
 
     get name(): string {
@@ -204,10 +204,10 @@ export class ConvolutionState extends NodeState<ConvolutionNode> {
         super(node);
         this.steps = this.node.steps || -1;
 
-        makeObservable(this);
+        //makeObservable(this);
     }
 
-    @override
+    //@override
     sync() {
         this.node.steps = this.steps;
         this.counter = this.node.counter || 0;
@@ -221,13 +221,13 @@ export class MapState extends BranchState<MapNode> {
 }
 
 export class PathState extends NodeState<PathNode> {
-    @observable
+    //@observable
     public from: number[];
-    @observable
+    //@observable
     public to: number[];
-    @observable
+    //@observable
     public on: number[];
-    @observable
+    //@observable
     public colored: number;
 
     constructor(node: PathNode) {
@@ -238,29 +238,29 @@ export class PathState extends NodeState<PathNode> {
         this.on = Helper.nonZeroPositions(node.substrate);
         this.colored = node.value;
 
-        makeObservable(this);
+        //makeObservable(this);
     }
 
     get name(): string {
         return "path";
     }
 
-    @override
+    //@override
     sync() {}
 }
 
 export abstract class RuleState<T extends RuleNode> extends NodeState<T> {
-    @observable
+    //@observable
     public steps = -1;
-    @observable
+    //@observable
     public counter = 0;
-    @observable
+    //@observable
     public temperature: number;
-    @observable
+    //@observable
     public search: boolean;
-    @observable
+    //@observable
     public searchedState: number;
-    @observable
+    //@observable
     public lastMatchedRuleIndices: number;
 
     constructor(node: T) {
@@ -272,10 +272,10 @@ export abstract class RuleState<T extends RuleNode> extends NodeState<T> {
         this.steps = this.node.steps || -1;
         this.lastMatchedRuleIndices = 0;
 
-        makeObservable(this);
+        //makeObservable(this);
     }
 
-    @override
+    //@override
     sync() {
         this.node.steps = this.steps;
         this.counter = this.node.counter || 0;
@@ -337,10 +337,10 @@ export class ParallelState extends RuleState<ParallelNode> {
 export abstract class WFCState<T extends WFCNode> extends NodeState<T> {
     constructor(node: T) {
         super(node);
-        makeObservable(this);
+        //makeObservable(this);
     }
 
-    @override
+    //@override
     sync() {}
 }
 
