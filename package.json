@@ -38,7 +38,8 @@
     "vscode:prepublish": "npm run compile",
     "compile": "tsc -b",
     "lint": "eslint src --ext ts",
-    "watch": "tsc -b --watch"
+    "watch": "tsc -b --watch",
+    "dev": "vite"
   },
   "keywords": [],
   "author": "Yuu6883",
@@ -65,7 +66,8 @@
     "react-tooltip": "^4.2.21",
     "regl": "^2.1.0",
     "regl-atmosphere-envmap": "^1.0.5",
-    "typescript": "^5.5.2"
+    "typescript": "^5.5.2",
+    "vite": "^5.4.8"
   },
   "dependencies": {}
 }

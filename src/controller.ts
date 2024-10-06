@@ -1,9 +1,10 @@
 import * as vscode from 'vscode';
+import { DOMParser } from "@xmldom/xmldom";
 
-export class SampleKernel {
+export class YupKernel {
 	private readonly _id = 'yup-notebook-serializer-kernel';
-	private readonly _label = 'Sample Notebook Kernel';
-	private readonly _supportedLanguages = ['json'];
+	private readonly _label = 'Yup Notebook Kernel';
+	private readonly _supportedLanguages = ['json','xml'];
 
 	private _executionOrder = 0;
 	private readonly _controller: vscode.NotebookController;
@@ -36,8 +37,27 @@ export class SampleKernel {
 		execution.start(Date.now());
 
 		try {
+			let obj: any;
+			const text = cell.document.getText()
+			switch (cell.document.languageId) {
+				case 'json':
+					obj = JSON.parse(text)
+					break;
+				case 'xml':
+					const parser = new DOMParser();
+        			const doc = parser.parseFromString(text, "text/xml");
+					const el = doc.firstChild as Element
+					const {tagName, attributes} = el
+					// @ts-ignore
+					obj = {tagName, lineNumber: el.lineNumber }
+					break;
+			
+				default:
+					break;
+			}
+
 			execution.replaceOutput([new vscode.NotebookCellOutput([
-				vscode.NotebookCellOutputItem.json(JSON.parse(cell.document.getText()))
+				vscode.NotebookCellOutputItem.json(obj)
 			])]);
 
 			execution.end(true, Date.now());

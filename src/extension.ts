@@ -1,13 +1,15 @@
 import * as vscode from 'vscode';
-import { SampleKernel } from './controller';
-import { SampleContentSerializer } from './serializer';
+import { YupKernel } from './controller';
+import { YupContentSerializer } from './serializer';
 
 const NOTEBOOK_TYPE = 'yup-notebook-serializer';
 
 export function activate(context: vscode.ExtensionContext) {
 	context.subscriptions.push(vscode.commands.registerCommand('yup-notebook.createJsonNotebook', async () => {
-		const language = 'json';
-		const defaultValue = `{ "hello_yup": 123 }`;
+		// const language = 'json';
+		// const defaultValue = `{ "hello_yup": 123 }`;
+		const language = 'xml';
+		const defaultValue = `<env size="39" legend="BAZ" />\n<dot color="Z"/>`;
 		const cell = new vscode.NotebookCellData(vscode.NotebookCellKind.Code, defaultValue, language);
 		const data = new vscode.NotebookData([cell]);
 		data.metadata = {
@@ -26,8 +28,8 @@ export function activate(context: vscode.ExtensionContext) {
 
 	context.subscriptions.push(
 		vscode.workspace.registerNotebookSerializer(
-			NOTEBOOK_TYPE, new SampleContentSerializer(), { transientOutputs: true }
+			NOTEBOOK_TYPE, new YupContentSerializer(), { transientOutputs: true }
 		),
-		new SampleKernel()
+		new YupKernel()
 	);
 }

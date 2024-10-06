@@ -1,0 +1,22 @@
+body{
+    background: lightskyblue;
+    margin:0;
+    padding: 20px;
+}
+h1 {
+    background: yellow;
+}
+
+.coding {
+    /* width: 100vw; */
+    /* display: flex; */
+    /* flex-direction: column; */
+    /* row-gap: 10px; */
+    padding: 20px;
+}
+.coding button {
+    width: auto;
+}
+.coding textarea {
+    width: calc(100% - 40px);
+}

@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Yup Playground</title>
+
+    <!-- <script src="libs/ace.js" type="text/javascript" charset="utf-8"></script> -->
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.32.3/ace.min.js" integrity="sha512-v4FCpndHUTAcQ0BeBMQMj7+JFXJYD2ABCX3wUcnWI18lKCr7DpqcaGXLUyooBbnCtTzLfsoXef40p3EaGHPRFQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script> -->
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.32.3/ext-themelist.min.js" integrity="sha512-pMxdTnsB69NXLsZPfJQmcEjUiq+aBbHas2GqpdXoqyt4gk8QgNUErfT0Mi9Eo99zk4bTJ1EzuzN5glFFIyo/Jg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script> -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/solid.css" integrity="sha384-QokYePQSOwpBDuhlHOsX0ymF6R/vLk/UQVz3WHa6wygxI5oGTmDTv8wahFOSspdm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/fontawesome.css" integrity="sha384-vd1e11sR28tEK9YANUtpIOdjGW14pS87bUBuOIoBILVWLFnS+MCX9T6MMf0VdPGq" crossorigin="anonymous">
+    
+    <!-- Application JS/CSS -->
+    <style type="text/css">
+      #pal canvas {
+        transform: scale(4);
+        /* border: 3px solid red; */
+        image-rendering: pixelated;
+      }
+    </style>
+    <link rel="stylesheet" href="style.css">
+    <script type="module" src="/src/dev.ts"></script>
+  </head>
+  <body>
+    <img src="vite.svg" />
+    <img src="palette.png" />
+    <div class="coding">
+      <textarea id="code1"></textarea>
+      <button>Run</button>
+      <pre id="result1"></pre>
+
+      <textarea id="code2"></textarea>
+      <button>Run</button>
+      <pre id="result2"></pre>
+    </div>
+  </body>
+  <!-- <div id="app"></div> -->
+</html>
