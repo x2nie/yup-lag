@@ -20,3 +20,14 @@ h1 {
 .coding textarea {
     width: calc(100% - 40px);
 }
+.color {
+    width: 2em;
+    padding: 3px;
+    /* height: 16px; */
+    display: inline-block;
+    float: left;
+    text-align: center;
+    font-weight: 500;
+    font-family: monospace;
+    font-size: x-large;
+}
