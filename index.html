@@ -33,16 +33,18 @@
         <one values="BW" in="B" out="Z" />
       </textarea>
 
-      <button id="btn1">Run</button>
+      <button id="btn1">Start</button>
       <pre id="result1"></pre>
 
 
 
       <textarea id="code2" rows="5">
-        <one in="B" out="A" steps="3" />
-        <one in="B" out="R" />
-      </textarea>
-      <button id="btn2">Run</button>
+        <sequence values="BPWRG" origin="True">
+          <all in="PBB" out="**P" comment="draw a grid"/>      
+          <one in="PBPBPBP/BBBBBBB/PBPBPBP/BBBBBBB/PBPBPBP/BBBBBBB/PBPBPBP" out="WWWWWWW/WWWWWWW/WWWWWWW/WWWWWWW/WWWWWWW/WWWWWWW/WWWWWWW"/>
+        </sequence>
+        </textarea>
+      <button id="btn2">Advance</button>
       <pre id="result2"></pre>
     </div>
 

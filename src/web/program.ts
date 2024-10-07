@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { Random } from "../random";
 // import {
 //     action,
