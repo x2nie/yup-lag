@@ -1,5 +1,6 @@
 import * as vscode from 'vscode';
 import { DOMParser } from "@xmldom/xmldom";
+import { Loader } from '../loader';
 
 export class YupKernel {
 	private readonly _id = 'yup-notebook-serializer-kernel';
@@ -36,20 +37,26 @@ export class YupKernel {
 		execution.executionOrder = ++this._executionOrder;
 		execution.start(Date.now());
 
+		const xml2json = (txt: string) => {
+			// const parser = new DOMParser();
+			// const doc = parser.parseFromString(txt, "text/xml");
+			// const el = doc.firstChild as Element;
+			const el = Loader.xmlParse(txt);
+			const {tagName, attributes} = el;
+			console.log(attributes);
+			// @ts-ignore
+			return {tagName, lineNumber: el.lineNumber, attributes };
+		};
+
 		try {
-			let obj: any;
-			const text = cell.document.getText()
+			let fun: any;
+			const text = cell.document.getText();
 			switch (cell.document.languageId) {
 				case 'json':
-					obj = JSON.parse(text)
+					fun = JSON.parse;
 					break;
 				case 'xml':
-					const parser = new DOMParser();
-        			const doc = parser.parseFromString(text, "text/xml");
-					const el = doc.firstChild as Element
-					const {tagName, attributes} = el
-					// @ts-ignore
-					obj = {tagName, lineNumber: el.lineNumber }
+					fun = xml2json;
 					break;
 			
 				default:
@@ -57,7 +64,7 @@ export class YupKernel {
 			}
 
 			execution.replaceOutput([new vscode.NotebookCellOutput([
-				vscode.NotebookCellOutputItem.json(obj)
+				vscode.NotebookCellOutputItem.json(fun(text))
 			])]);
 
 			execution.end(true, Date.now());
