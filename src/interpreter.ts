@@ -93,6 +93,49 @@ export class Interpreter {
         yield this.state();
     }
 
+    /**
+     * Same as `run` but with reuse a grid values
+     * @param steps 
+     * @param ip 
+     */
+    public *advance(
+        // seed: number,
+        steps: number, ip:Interpreter
+    ): Generator<[Uint8Array, string, number, number, number]> {
+        this.rng = ip.rng;
+        // this.grid = ip.grid;
+        this.grid.padded.set(ip.grid.padded);
+        // this.grid.clear();
+
+        if (this.origin) {
+            const center =
+                (this.grid.MX >>> 1) +
+                (this.grid.MY >>> 1) * this.grid.MX +
+                (this.grid.MZ >>> 1) * this.grid.MX * this.grid.MY;
+            this.grid.state[center] = 1;
+        }
+
+        this.changes.splice(0, this.changes.length);
+        this.first.splice(0, this.first.length);
+        this.first.push(0);
+
+        // this.time = 0;
+        this.root.reset();
+        this.current = this.root;
+
+        this.counter = 0;
+
+        while (this.current && (steps <= 0 || this.counter < steps)) {
+            yield this.state();
+
+            this.current.run();
+            this.counter++;
+            this.first.push(this.changes.length);
+        }
+
+        yield this.state();
+    }
+
     public state(): [Uint8Array, string, number, number, number] {
         const grid = this.grid;
         return [grid.padded, grid.characters, grid.MX, grid.MY, grid.MZ];
