@@ -262,13 +262,13 @@ export class TileNode extends WFCNode {
                 const dtile = zRotate(ltile);
                 const utile = zRotate(rtile);
 
-                var dsym = SymmetryHelper.squareSymmetries(
+                const dsym = SymmetryHelper.squareSymmetries(
                     dtile,
                     yRotate,
                     zReflect,
                     FALSE
                 );
-                var usym = SymmetryHelper.squareSymmetries(
+                const usym = SymmetryHelper.squareSymmetries(
                     utile,
                     yRotate,
                     zReflect,
@@ -288,13 +288,13 @@ export class TileNode extends WFCNode {
                 const btile = yRotate(ltile);
                 const ttile = yRotate(rtile);
 
-                var bsym = SymmetryHelper.squareSymmetries(
+                const bsym = SymmetryHelper.squareSymmetries(
                     btile,
                     zRotate,
                     xReflect,
                     FALSE
                 );
-                var tsym = SymmetryHelper.squareSymmetries(
+                const tsym = SymmetryHelper.squareSymmetries(
                     ttile,
                     zRotate,
                     xReflect,
@@ -487,9 +487,9 @@ export class TileNode extends WFCNode {
                                         max = vote;
                                     }
                                 }
-                                let sx = x * (S - overlap) + dx;
-                                let sy = y * (S - overlap) + dy;
-                                let sz = z * (SZ - overlapz) + dz;
+                                const sx = x * (S - overlap) + dx;
+                                const sy = y * (S - overlap) + dy;
+                                const sz = z * (SZ - overlapz) + dz;
                                 newgrid.state[
                                     sx +
                                         sy * newgrid.MX +
