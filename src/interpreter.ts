@@ -1,6 +1,6 @@
 import { Random } from "./random";
 import { Grid } from "./grid";
-import { vec3 } from "./helpers/helper";
+import { Helper, vec3 } from "./helpers/helper";
 import { SymmetryHelper } from "./helpers/symmetry";
 import { Node, Branch, MarkovNode } from "./mj-nodes";
 
@@ -25,6 +25,7 @@ export class Interpreter {
         MY: number,
         MZ: number
     ) {
+        Helper.mergeEnv(elem);
         const ip = new Interpreter();
         ip.origin = elem.getAttribute("origin") === "True";
         ip.grid = Grid.build(elem, MX, MY, MZ);
@@ -55,6 +56,8 @@ export class Interpreter {
             topnode instanceof Branch ? topnode : new MarkovNode(topnode, ip);
         return ip;
     }
+
+    private mergeEnv()
 
     public *run(
         seed: number,
@@ -104,8 +107,8 @@ export class Interpreter {
     ): Generator<[Uint8Array, string, number, number, number]> {
         this.rng = ip.rng;
         // this.grid = ip.grid;
+        this.grid.clear();
         this.grid.padded.set(ip.grid.padded);
-        // this.grid.clear();
 
         if (this.origin) {
             const center =

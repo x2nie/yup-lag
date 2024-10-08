@@ -7,6 +7,7 @@ import {
     AllNode,
     ConvChainNode,
     ConvolutionNode,
+    DotNode,
     MapNode,
     OneNode,
     OverlapNode,
@@ -41,7 +42,8 @@ export abstract class Node {
         elem: Element,
         symmetry: Uint8Array,
         ip: Interpreter,
-        grid: Grid
+        grid: Grid,
+        lazyLoad: boolean = false
     ) {
         const name = elem.tagName.toLowerCase();
         if (!Node.VALID_TAGS.has(name)) {
@@ -50,6 +52,7 @@ export abstract class Node {
         }
 
         const node: Node = {
+            dot: () => new DotNode(),
             one: () => new OneNode(),
             all: () => new AllNode(),
             prl: () => new ParallelNode(),
@@ -71,6 +74,8 @@ export abstract class Node {
         node.source = <typeof node.source>elem;
         node.comment = elem.getAttribute("comment");
 
+        if (lazyLoad) return node;
+        
         const success = await node.load(elem, symmetry, grid);
         if (!success) console.error(elem, "failed to load");
 
@@ -78,6 +83,9 @@ export abstract class Node {
     }
 
     private static readonly VALID_TAGS = new Set([
+        // "tray", //x2nie. for free dormant notebook.run
+        // "env",
+        "dot",
         "one",
         "all",
         "prl",

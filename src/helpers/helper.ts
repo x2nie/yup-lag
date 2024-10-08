@@ -15,6 +15,20 @@ export class Helper {
         return s.split(s1).map((l) => l.split(s2));
     }
 
+    public static mergeEnv(elem: Element){
+        for (const child of Helper.elemChildren(elem)) {
+            if(child.tagName=="env"){
+                for (const name of child.getAttributeNames()) {
+                    const value = child.getAttribute(name);
+                    elem.setAttribute(name, value);
+                }
+            } else 
+                // currently doesn't support <env> after non-env element. 
+                // due that is hard to think set config after runnning = after a valid node: setting is disabled.
+                break; 
+        }
+    }
+
     public static firstNonZeroPosition(w: number) {
         for (let p = 0; p < 32; p++, w >>= 1) if ((w & 1) === 1) return p;
         return 0xff;

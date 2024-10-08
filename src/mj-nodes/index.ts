@@ -1,4 +1,6 @@
 export * from "./node";
+// export * from "./tray";
+export * from "./etc";
 /**/ export * from "./convchain";
 /**/ export * from "./convolution";
 /**/ export * from "./map";

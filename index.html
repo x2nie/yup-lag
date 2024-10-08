@@ -29,8 +29,13 @@
     <div class="coding">
 
       <textarea id="code1" rows="5">
-        <one values="BPWRG" in="B" out="W" steps="3" />
-        <!-- <one values="BW" in="B" out="Z" /> -->
+        <env values="BPWRG" />
+        <one in="B" out="W" steps="3" />
+        <one in="B" out="R" steps="2"/>
+
+        <!-- old -->
+        <!-- <one values="BPWRG" in="B" out="W" steps="3" /> -->
+        <!-- <one values="BW" in="B" out="R" steps="2"/> -->
       </textarea>
 
       <button id="btn1">Start</button>
@@ -39,10 +44,11 @@
 
 
       <textarea id="code2" rows="5">
-        <sequence values="BPWRG" origin="True">
+        <!-- <sequence values="BPWRG" origin="True"> -->
+          <dot color="P" />
           <all in="PBB" out="**P" comment="draw a grid"/>      
           <one in="PBPBPBP/BBBBBBB/PBPBPBP/BBBBBBB/PBPBPBP/BBBBBBB/PBPBPBP" out="WWWWWWW/WWWWWWW/WWWWWWW/WWWWWWW/WWWWWWW/WWWWWWW/WWWWWWW"/>
-        </sequence>
+        <!-- </sequence> -->
         </textarea>
         <button id="btn2">Advance</button>
         <label for="reset">Reset <input type="checkbox" id="reset" checked/></label>
