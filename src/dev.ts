@@ -19,7 +19,7 @@ async function exec(code:HTMLTextAreaElement, pre:HTMLPreElement, oldIP:Interpre
     console.log('reset:',reset.checked);
     const elem = xmlParse(code.value);
     if(oldIP){
-        elem.setAttribute("values", oldIP.grid.characters)
+        elem.setAttribute("values", oldIP.grid.characters);
     }
     const ip = await Interpreter.load(
         elem, MX, MY, MZ

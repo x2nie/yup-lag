@@ -43,7 +43,7 @@ export class Helper {
     public static sampleWeights(weights: Float64Array, r: number) {
         let sum = 0;
         for (let i = 0; i < weights.length; i++) sum += weights[i];
-        let threshold = r * sum;
+        const threshold = r * sum;
 
         let partialSum = 0;
         for (let i = 0; i < weights.length; i++) {
@@ -114,7 +114,7 @@ export class Helper {
         let max = -1,
             argmax = -1;
         for (let i = 0; i < amounts.length; i++) {
-            let amount = amounts[i];
+            const amount = amounts[i];
             if (amount > 0 && amount > max) {
                 max = amount;
                 argmax = i;
@@ -160,7 +160,7 @@ export class Helper {
     ): [Uint8Array, number] {
         const result = new Uint8Array(data.length);
         for (let i = 0; i < data.length; i++) {
-            let d = data[i];
+            const d = data[i];
             let ord = uniques.indexOf(d);
             if (ord == -1) {
                 ord = uniques.length;
@@ -186,9 +186,9 @@ export class Helper {
     public static hex2rgba(hex: string, alpha = 255) {
         const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
         if (result) {
-            var r = parseInt(result[1], 16);
-            var g = parseInt(result[2], 16);
-            var b = parseInt(result[3], 16);
+            const r = parseInt(result[1], 16);
+            const g = parseInt(result[2], 16);
+            const b = parseInt(result[3], 16);
             return new Uint8ClampedArray([r, g, b, alpha]);
         }
         return null;

@@ -57,8 +57,6 @@ export class Interpreter {
         return ip;
     }
 
-    private mergeEnv()
-
     public *run(
         seed: number,
         steps: number
