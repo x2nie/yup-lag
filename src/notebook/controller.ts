@@ -1,6 +1,8 @@
 import * as vscode from 'vscode';
+import { Helper } from '../helpers/helper';
 import { DOMParser } from "@xmldom/xmldom";
-import { Loader } from '../loader';
+// import { Loader } from '../loader';
+
 
 export class YupKernel {
 	private readonly _id = 'yup-notebook-serializer-kernel';
@@ -41,11 +43,19 @@ export class YupKernel {
 			// const parser = new DOMParser();
 			// const doc = parser.parseFromString(txt, "text/xml");
 			// const el = doc.firstChild as Element;
-			const el = Loader.xmlParse(txt);
-			const {tagName, attributes} = el;
-			console.log(attributes);
+			// const el = Loader.xmlParse(txt);
+			const el = Helper.xmlParse(txt);
+			// const el = xmlParse(txt);
+			const attributes = {};
+			// for (const name of el.getAttributeNames()) {
+			// for (const name of el.attributes) {
+			// 	const value = el.getAttribute(name);
+			// 	attributes[name] = value;
+			// }
 			// @ts-ignore
-			return {tagName, lineNumber: el.lineNumber, attributes };
+			const {tagName, lineNumber} = el;
+			// console.log(attributes);
+			return {tagName, lineNumber, attributes };
 		};
 
 		try {
@@ -76,3 +86,19 @@ export class YupKernel {
 		}
 	}
 }
+
+/* 
+function xmlParse(text: string) {
+    // text = `<sequence>${text}</sequence>` // ! doesn work
+    // text = `<sequence values="BIPENDAWROYGUSKFZ">${text}</sequence>`;
+    const textWrapper = `<sequence values="BIPENDAWROYGUSKFZ">${text}</sequence>`;
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(textWrapper, "text/xml");
+    if(doc.documentElement.children.length > 1)
+        return doc.documentElement;
+    else {
+        return parser.parseFromString(text, "text/xml").documentElement;
+        // return doc.documentElement.children[0];
+
+    }
+} */

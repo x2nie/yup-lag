@@ -1,4 +1,5 @@
 import { Random } from "../random";
+import { DOMParser } from "@xmldom/xmldom";
 
 interface WritableArray<T> {
     readonly length: number;
@@ -13,6 +14,21 @@ interface DOMCollection<T> {
 export class Helper {
     public static split2(s: string, s1: string, s2: string) {
         return s.split(s1).map((l) => l.split(s2));
+    }
+
+    public static xmlParse(text: string) {
+        // text = `<sequence>${text}</sequence>` //  doesn work
+        // text = `<sequence values="BIPENDAWROYGUSKFZ">${text}</sequence>`;
+        const textWrapper = `<sequence values="BIPENDAWROYGUSKFZ">${text}</sequence>`;
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(textWrapper, "text/xml");
+        const children = [...Helper.elemChildren(doc.documentElement)];
+        if(children.length > 1)
+            return doc.documentElement;
+        else {
+            return parser.parseFromString(text, "text/xml").documentElement;
+            // return doc.documentElement.children[0];
+        }
     }
 
     public static mergeEnv(elem: Element){
