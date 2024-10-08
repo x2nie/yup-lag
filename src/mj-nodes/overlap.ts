@@ -149,7 +149,7 @@ export class OverlapNode extends WFCNode {
             dx: number,
             dy: number
         ) => {
-            let xmin = dx < 0 ? 0 : dx,
+            const xmin = dx < 0 ? 0 : dx,
                 xmax = dx < 0 ? dx + N : N,
                 ymin = dy < 0 ? 0 : dy,
                 ymax = dy < 0 ? dy + N : N;
