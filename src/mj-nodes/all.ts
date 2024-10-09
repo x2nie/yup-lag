@@ -49,10 +49,10 @@ export class AllNode extends RuleNode {
                             dx + dy * rule.OMX + dz * rule.OMX * rule.OMY
                         ];
                     if (newvalue != 0xff) {
-                        let sx = x + dx,
+                        const sx = x + dx,
                             sy = y + dy,
                             sz = z + dz;
-                        let i = sx + sy * MX + sz * MX * MY;
+                        const i = sx + sy * MX + sz * MX * MY;
                         mask[i] = 1;
                         this.grid.state[i] = newvalue;
                         this.ip.changes.push([sx, sy, sz]);
