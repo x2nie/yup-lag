@@ -1,7 +1,7 @@
 import { Random } from "../random";
 import { Grid } from "../grid";
 import { Helper, vec3, vec4 } from "../helpers/helper";
-import { XmlElement } from "@lib/xml";
+import { XmlElement } from "../lib/xml";
 
 import { Node, RunState } from ".";
 

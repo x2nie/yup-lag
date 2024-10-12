@@ -4,7 +4,7 @@ import { Branch, SequenceNode, RunState } from ".";
 import { Rule } from "../rule";
 import { Helper } from "../helpers/helper";
 import { Optimization } from "../wasm/optimization";
-import { XmlElement } from "@lib/xml";
+import { XmlElement } from "../lib/xml";
 
 const readScale = (s: string): [number, number] => {
     if (!s.includes("/")) return [parseInt(s), 1];

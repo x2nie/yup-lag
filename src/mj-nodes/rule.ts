@@ -10,7 +10,7 @@ import { Search } from "../search";
 import { NativeObserve } from "../wasm/observe";
 import { Optimization } from "../wasm/optimization";
 import { NativeSearch } from "../wasm/search";
-import { XmlElement } from "@lib/xml";
+import { XmlElement } from "../lib/xml";
 
 import { Node, AllNode, RunState } from ".";
 

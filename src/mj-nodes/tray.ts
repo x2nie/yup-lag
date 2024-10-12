@@ -2,7 +2,7 @@ import { Grid } from "../grid";
 import { SymmetryHelper } from "../helpers/symmetry";
 import { Helper } from "../helpers/helper";
 import { Node, Branch, SequenceNode, MapNode, WFCNode, RunState } from ".";
-import { XmlElement } from "@lib/xml";
+import { XmlElement } from "../lib/xml";
 
 /**
  * Same as Sequence, but it will lazily load the children

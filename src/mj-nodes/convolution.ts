@@ -2,7 +2,7 @@ import { Grid } from "../grid";
 import { Array2D } from "../helpers/datastructures";
 import { Helper } from "../helpers/helper";
 import { Node, RunState } from ".";
-import { XmlElement } from "@lib/xml";
+import { XmlElement } from "../lib/xml";
 
 export class ConvolutionNode extends Node {
     public neighborhood: string;

@@ -4,7 +4,7 @@
 import { Interpreter } from "./interpreter";
 import { Helper } from "./helpers/helper";
 // import { XmlNode } from "@rgrove/parse-xml";
-import { Parser, XmlNode, XmlElement, parseXml } from "@lib/xml";
+import { Parser, XmlNode, XmlElement, parseXml } from "./lib/xml";
 
 const xx = new XmlElement('yo');
 console.log(xx.find('zoo'));
