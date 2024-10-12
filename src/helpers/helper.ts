@@ -1,5 +1,6 @@
 import { Random } from "../random";
 import { DOMParser } from "@xmldom/xmldom";
+import { Parser, ParserOptions } from "./xmlParser";
 
 interface WritableArray<T> {
     readonly length: number;
@@ -14,6 +15,11 @@ interface DOMCollection<T> {
 export class Helper {
     public static split2(s: string, s1: string, s2: string) {
         return s.split(s1).map((l) => l.split(s2));
+    }
+
+    public static parseXml(text: string, options?: ParserOptions) {
+        options = Object.assign({includeOffsets:true}, options);
+        return (new Parser(text, options)).document;
     }
 
     public static xmlParse(text: string) {
@@ -34,9 +40,9 @@ export class Helper {
     public static mergeEnv(elem: Element){
         for (const child of Helper.elemChildren(elem)) {
             if(child.tagName=="env"){
-                for (const name of child.getAttributeNames()) {
-                    const value = child.getAttribute(name);
-                    elem.setAttribute(name, value);
+                for (let i = 0; i < child.attributes.length; i++) {
+                    const attr = child.attributes[i];
+                    elem.setAttribute(attr.name, attr.value);
                 }
             } else 
                 // currently doesn't support <env> after non-env element. 

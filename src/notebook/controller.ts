@@ -40,6 +40,9 @@ export class YupKernel {
 		execution.start(Date.now());
 
 		const xml2json = (txt: string) => {
+			return Helper.parseXml(txt).toJSON();
+		};
+		const xml2json0 = (txt: string) => {
 			// const parser = new DOMParser();
 			// const doc = parser.parseFromString(txt, "text/xml");
 			// const el = doc.firstChild as Element;
@@ -47,6 +50,10 @@ export class YupKernel {
 			const el = Helper.xmlParse(txt);
 			// const el = xmlParse(txt);
 			const attributes = {};
+			for (let i = 0; i < el.attributes.length; i++) {
+				const attr = el.attributes[i];
+				attributes[attr.name] = attr.value;
+			}
 			// for (const name of el.getAttributeNames()) {
 			// for (const name of el.attributes) {
 			// 	const value = el.getAttribute(name);
