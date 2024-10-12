@@ -1,6 +1,6 @@
 import { Random } from "../random";
 import { DOMParser } from "@xmldom/xmldom";
-import { Parser, ParserOptions } from "./xmlParser";
+import { Parser, ParserOptions } from "@lib/xml";
 
 interface WritableArray<T> {
     readonly length: number;
