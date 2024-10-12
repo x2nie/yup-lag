@@ -3,6 +3,7 @@ import { Loader } from "../loader";
 import { Helper, range } from "../helpers/helper";
 import { SymmetryHelper } from "../helpers/symmetry";
 import { Node, RunState } from ".";
+import { XmlElement } from "@lib/xml";
 
 export class ConvChainNode extends Node {
     private N: number;

@@ -191,7 +191,7 @@ export class IsometricRenderer extends Renderer {
     }
 
     override clear() {
-        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+        this.ctx?.clearRect(0, 0, this.canvas.width, this.canvas.height);
     }
 
     override dispose() {}

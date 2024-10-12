@@ -2,6 +2,7 @@ import { Random } from "../random";
 import { Grid } from "../grid";
 import { Array3D, BoolArray2D } from "../helpers/datastructures";
 import { Helper } from "../helpers/helper";
+import { XmlElement } from "@lib/xml";
 
 import { Branch, SequenceNode, RunState } from ".";
 
@@ -152,6 +153,7 @@ export abstract class WFCNode extends Branch {
             this.stacksize = 0;
             this.wave.copyFrom(this.startwave, this.shannon);
 
+            // eslint-disable-next-line no-constant-condition
             while (true) {
                 const node = this.nextUnobservedNode(this.rng);
 

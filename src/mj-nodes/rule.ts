@@ -10,6 +10,7 @@ import { Search } from "../search";
 import { NativeObserve } from "../wasm/observe";
 import { Optimization } from "../wasm/optimization";
 import { NativeSearch } from "../wasm/search";
+import { XmlElement } from "@lib/xml";
 
 import { Node, AllNode, RunState } from ".";
 
@@ -171,7 +172,7 @@ export abstract class RuleNode extends Node {
 
         try {
             this.searching?.throw(new Error("reset"));
-        } catch {}
+        } catch { /* empty */ }
         this.searching = null;
         this.preObserve = null;
     }

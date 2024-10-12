@@ -3,6 +3,7 @@ import { Grid } from "../grid";
 import { BoolArray2D } from "../helpers/datastructures";
 import { Helper } from "../helpers/helper";
 import { RuleNode, RunState } from ".";
+import { XmlElement } from "@lib/xml";
 
 export class AllNode extends RuleNode {
     public override async load(

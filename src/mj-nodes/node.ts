@@ -2,6 +2,7 @@ import { Grid } from "../grid";
 import { Helper } from "../helpers/helper";
 import { SymmetryHelper } from "../helpers/symmetry";
 import { Interpreter } from "../interpreter";
+import { XmlElement } from "@lib/xml";
 
 import {
     AllNode,

@@ -3,6 +3,7 @@ import { Loader } from "../loader";
 import { Array2D, Array3Dflat, BoolArray3D } from "../helpers/datastructures";
 import { Helper } from "../helpers/helper";
 import { SymmetryHelper } from "../helpers/symmetry";
+import { XmlElement } from "@lib/xml";
 
 import { WFCNode } from ".";
 import { Random } from "../random";

@@ -1,4 +1,5 @@
 // import { DOMParser } from "@xmldom/xmldom";
+import { Helper } from "../helpers/helper";
 import { VoxHelper } from "../helpers/vox";
 
 export class Loader {
@@ -7,18 +8,19 @@ export class Loader {
         if (res.status !== 200) return null;
         const text = await res.text();
         try {
-            return { text, elem: this.xmlParse(text) };
+            // return { text, elem: this.xmlParse(text) };
+            return { text, elem: Helper.parseXml(text) };
         } catch (e) {
             console.error(e);
             return null;
         }
     }
 
-    static xmlParse(text: string) {
-        const parser = new DOMParser();
-        const doc = parser.parseFromString(text, "text/xml");
-        return doc.documentElement;
-    }
+    // static xmlParse(text: string) {
+    //     const parser = new DOMParser();
+    //     const doc = parser.parseFromString(text, "text/xml");
+    //     return doc.documentElement;
+    // }
 
     static async vox(
         path: string

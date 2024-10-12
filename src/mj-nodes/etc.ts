@@ -3,6 +3,7 @@ import { Grid } from "../grid";
 // import { SymmetryHelper } from "../helpers/symmetry";
 // import { Helper } from "../helpers/helper";
 import { Node } from ".";
+import { XmlElement } from "@lib/xml";
 
 /** it mere a replacement of the root's attribute: `origin=True` */
 export class DotNode extends  Node {

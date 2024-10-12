@@ -1,5 +1,6 @@
 import { Grid } from "../grid";
 import { RuleNode, RunState } from ".";
+import { XmlElement } from "@lib/xml";
 
 export class ParallelNode extends RuleNode {
     private newstate: Uint8Array;

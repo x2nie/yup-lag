@@ -4,6 +4,7 @@ import { Grid } from "../grid";
 import { BoolArray2D } from "../helpers/datastructures";
 import { range, vec4 } from "../helpers/helper";
 import { Observation } from "../observation";
+import { XmlElement } from "@lib/xml";
 
 import { RuleNode, RunState } from ".";
 
