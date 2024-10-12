@@ -2,6 +2,7 @@ import { Grid } from "./grid";
 import { Array2D } from "./helpers/datastructures";
 import { vec4 } from "./helpers/helper";
 import { Rule } from "./rule";
+import { XmlElement } from "./lib/xml";
 
 export class Field {
     public readonly recompute: boolean;

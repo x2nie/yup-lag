@@ -1,5 +1,5 @@
 import { Random } from "../random";
-import { Parser, ParserOptions, XmlElement } from "@lib/xml";
+import { Parser, ParserOptions, XmlElement } from "../lib/xml";
 
 interface WritableArray<T> {
     readonly length: number;

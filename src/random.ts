@@ -13,7 +13,7 @@
 const Int32 = {
     MinValue: Math.pow(2, 31) * -1,
     MaxValue: Math.pow(2, 31) - 1
-}
+};
 const MBIG = Int32.MaxValue;
 const MSEED = 161803398;
 
@@ -64,7 +64,7 @@ export class Random {
 
     public next(maxValue: number = 0): number {
         if (maxValue == 0)
-            return this.internalSample()
+            return this.internalSample();
 
         if (maxValue < 0) {
             throw new Error("ArgumentOutOfRange_MustBePositive");

@@ -11,8 +11,7 @@
     "Other"
   ],
   "activationEvents": [
-    "onNotebook:yup-notebook-serializer",
-    "onCommand:yup-notebook.createJsonNotebook"
+    "onNotebook:yup-notebook-serializer"
   ],
   "main": "./out/extension.js",
   "contributes": {
@@ -53,6 +52,7 @@
     "@types/vscode": "^1.74.0",
     "@typescript-eslint/eslint-plugin": "^7.14.0",
     "@typescript-eslint/parser": "^7.14.0",
+    "@rgrove/parse-xml": "^4.1.0",
     "ace-builds": "^1.8.1",
     "eslint": "^8.56.0",
     "gl-matrix": "^3.4.3",
@@ -64,6 +64,5 @@
     "vite": "^5.4.8"
   },
   "dependencies": {
-    "@rgrove/parse-xml": "^4.1.0"
   }
 }

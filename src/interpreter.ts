@@ -3,7 +3,7 @@ import { Grid } from "./grid";
 import { Helper, vec3 } from "./helpers/helper";
 import { SymmetryHelper } from "./helpers/symmetry";
 import { Node, Branch, MarkovNode } from "./mj-nodes";
-import { XmlElement } from "@lib/xml";
+import { XmlElement } from "./lib/xml";
 
 export class Interpreter {
     public root: Branch;

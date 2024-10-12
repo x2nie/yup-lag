@@ -1,4 +1,5 @@
 import { Helper } from "./helpers/helper";
+import { XmlElement } from "./lib/xml";
 
 export class Grid {
     public state: Uint8Array;

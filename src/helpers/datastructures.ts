@@ -24,7 +24,8 @@ export class BoolArray {
     }
 
     check(x: number) {
-        if (x < 0 || x >= this.length || !Number.isInteger(x)) debugger;
+        if (x < 0 || x >= this.length || !Number.isInteger(x)) 
+            console.log('debugger!');
     }
 
     get(x: number) {
@@ -104,7 +105,8 @@ export class BoolArray2D {
             y >= this.MX ||
             !Number.isInteger(y)
         )
-            debugger;
+            // debugger;
+        console.log('debugger!');
     }
 
     get(x: number, y: number) {
@@ -171,7 +173,8 @@ export class BoolArray3D {
             z >= this.MX ||
             !Number.isInteger(z)
         )
-            debugger;
+            // debugger;
+        console.log('debugger!');
     }
 
     get(x: number, y: number, z: number) {
@@ -251,7 +254,8 @@ export class Array2D<T extends TypedArray> {
             y >= this.MX ||
             !Number.isInteger(y)
         )
-            debugger;
+        // debugger;
+        console.log('debugger!');
     }
 
     get(x: number, y: number) {
@@ -337,7 +341,8 @@ export class Array3D<T extends TypedArray> {
             z >= this.MX ||
             !Number.isInteger(z)
         )
-            debugger;
+            // debugger;
+        console.log('debugger!');            
     }
 
     get(x: number, y: number, z: number) {

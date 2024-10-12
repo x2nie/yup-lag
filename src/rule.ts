@@ -3,6 +3,7 @@ import { Array3Dflat } from "./helpers/datastructures";
 import { Helper, vec3 } from "./helpers/helper";
 import { Loader } from "./loader";
 import { SymmetryHelper } from "./helpers/symmetry";
+import { XmlElement } from "@lib/xml";
 
 declare type Shift = vec3[][];
 

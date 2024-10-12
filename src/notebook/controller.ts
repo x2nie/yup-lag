@@ -1,8 +1,10 @@
 import * as vscode from 'vscode';
 import { Helper } from '../helpers/helper';
+import { Interpreter } from '../interpreter';
 // import { DOMParser } from "@xmldom/xmldom";
 // import { Loader } from '../loader';
 
+const MX = 15, MY = MX, MZ =1, STEPS=200;
 
 export class YupKernel {
 	private readonly _id = 'yup-notebook-serializer-kernel';
@@ -39,8 +41,35 @@ export class YupKernel {
 		execution.executionOrder = ++this._executionOrder;
 		execution.start(Date.now());
 
+		const elem = Helper.parseXml(cell.document.getText());
+		const ip = await Interpreter.load(
+			elem, MX, MY, MZ
+		);
+		let curr;
+		// if(!oldIP){
+		// 	curr = ip.advance(STEPS, oldIP);
+		// } else {
+			curr = ip.run(undefined, STEPS);
+		// }
+		let result = curr.next();
+		while(!result.done){
+			// console.log(result);
+			result = curr.next();
+		}
+		const [grid, chars] = ip.state();
+		let s = '';
+		let i = 0;
+		for (let y = 0; y < MY; y++) {
+			for (let x = 0; x < MX; x++) {
+				s += grid[i] == 0 ? '-' : chars[grid[i]];
+				i++;
+			}
+			s += '\n';
+		}
+		// pre.textContent = s;
+
 		const xml2json = (txt: string) => {
-			return Helper.parseXml(txt).toJSON();
+			return elem.toJSON();
 		};
 		/*const xml2json0 = (txt: string) => {
 			// const parser = new DOMParser();
@@ -81,7 +110,8 @@ export class YupKernel {
 			}
 
 			execution.replaceOutput([new vscode.NotebookCellOutput([
-				vscode.NotebookCellOutputItem.json(fun(text))
+				vscode.NotebookCellOutputItem.json(fun(text)),
+				vscode.NotebookCellOutputItem.text(s, 'text/plain')
 			])]);
 
 			execution.end(true, Date.now());
