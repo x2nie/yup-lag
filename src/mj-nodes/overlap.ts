@@ -16,7 +16,7 @@ export class OverlapNode extends WFCNode {
     private votes: Array2D<Uint32Array>;
 
     public override async load(
-        elem: Element,
+        elem: XmlElement,
         parentSymmetry: Uint8Array,
         grid: Grid
     ) {

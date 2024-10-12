@@ -8,7 +8,7 @@ import { Node } from ".";
 export class DotNode extends  Node {
     private color: string = "";
     public override async load(
-        elem: Element,
+        elem: XmlElement,
         parentSymmetry: Uint8Array,
         grid: Grid
     ) {
@@ -46,7 +46,7 @@ export class EnvNode extends  Node {
     // }
 
     public override async load(
-        elem: Element,
+        elem: XmlElement,
         parentSymmetry: Uint8Array,
         grid: Grid
     ) {

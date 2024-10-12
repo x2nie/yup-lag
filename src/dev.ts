@@ -1,11 +1,14 @@
-import { DOMParser } from "@xmldom/xmldom";
 // import { parseXml } from '@rgrove/parse-xml';
-import { ParserOptions } from '@rgrove/parse-xml/src/lib/Parser';
+// import { ParserOptions } from '@rgrove/parse-xml/src/lib/Parser';
 // import { Parser } from '@rgrove/parse-xml/dist/lib/Parser.js';
-import { Parser } from "./helpers/xmlParser";
 import { Interpreter } from "./interpreter";
 import { Helper } from "./helpers/helper";
-import { XmlNode } from "@rgrove/parse-xml";
+// import { XmlNode } from "@rgrove/parse-xml";
+import { Parser, XmlNode, XmlElement, parseXml } from "@lib/xml";
+
+const xx = new XmlElement('yo');
+console.log(xx.find('zoo'));
+
 let ip : Interpreter;
 
 const code1 = document.getElementById('code1') as HTMLTextAreaElement;
@@ -25,7 +28,8 @@ const MX = 15, MY = MX, MZ =1, STEPS=200;
 
 async function exec(code:HTMLTextAreaElement, pre:HTMLPreElement, oldIP:Interpreter=undefined):Promise<Interpreter>{
     console.log('reset:',reset.checked);
-    const elem = Helper.xmlParse(code.value);
+    // const elem = Helper.xmlParse(code.value);
+    const elem = Helper.parseXml(code.value);
     if(oldIP){
         elem.setAttribute("values", oldIP.grid.characters);
     }
@@ -108,7 +112,7 @@ class Parser2 extends Parser {
         }
       }
     // public roots : XmlNode[] = [];
-}*/
+}
 
 // Extended class menggunakan prototype
 function Parser3(xml: string, options: any = {}) {
@@ -155,6 +159,8 @@ function parseXml(xml: string, options?: ParserOptions) {
     // } 
     
 }
+
+*/
 
 function parse(code:HTMLTextAreaElement, pre:HTMLPreElement) {
     let xml = code.value;

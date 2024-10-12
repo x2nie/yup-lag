@@ -37,7 +37,7 @@ export abstract class WFCNode extends Branch {
     protected rng: Random;
 
     public override async load(
-        elem: Element,
+        elem: XmlElement,
         parentSymmetry: Uint8Array,
         grid: Grid
     ) {

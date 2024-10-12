@@ -11,7 +11,7 @@ const INVALID: vec4 = [-1, -1, -1, -1];
 
 export class OneNode extends RuleNode {
     public override async load(
-        elem: Element,
+        elem: XmlElement,
         parentSymmetry: Uint8Array,
         grid: Grid
     ) {

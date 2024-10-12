@@ -24,7 +24,7 @@ interface NodeConstructor {
 
 export abstract class Node {
     public abstract load(
-        elem: Element,
+        elem: XmlElement,
         symmetry: Uint8Array,
         grid: Grid
     ): Promise<boolean>;
@@ -32,14 +32,14 @@ export abstract class Node {
     public abstract reset(): void;
     public abstract run(): RunState;
 
-    public source: Element & { lineNumber: number; columnNumber: number };
+    public source: XmlElement & { lineNumber: number; columnNumber: number };
     public comment: string;
 
     public ip: Interpreter;
     public grid: Grid;
 
     public static async factory(
-        elem: Element,
+        elem: XmlElement,
         symmetry: Uint8Array,
         ip: Interpreter,
         grid: Grid,
@@ -109,7 +109,7 @@ export abstract class Branch<T extends Node = Node> extends Node {
     public n: number;
 
     public override async load(
-        elem: Element,
+        elem: XmlElement,
         parentSymmetry: Uint8Array,
         grid: Grid
     ) {

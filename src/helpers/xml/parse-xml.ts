@@ -276,7 +276,7 @@ export class Parser {
 
     if (scanner.peek(3) === "]]>") {
       throw this.error(
-        "Element content may not contain the CDATA section close delimiter `]]>`"
+        "XmlElement content may not contain the CDATA section close delimiter `]]>`"
       );
     }
 

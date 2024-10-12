@@ -5,7 +5,7 @@ export class ParallelNode extends RuleNode {
     private newstate: Uint8Array;
 
     public override async load(
-        elem: Element,
+        elem: XmlElement,
         parentSymmetry: Uint8Array,
         grid: Grid
     ) {

@@ -3,7 +3,7 @@
         "module": "commonjs",
         "target": "es2020",
 		"lib": [
-			"es2021"
+			"es2021", "DOM"
 		],
         // "experimentalDecorators": true,
         "outDir": "out",
@@ -25,6 +25,10 @@
         // "resolveJsonModule": true,
         "jsx": "react-jsx",
         // "downlevelIteration": true
+        "baseUrl": "./src", // root of your "paths" below. Required if "paths" is defined
+        "paths": {
+            "@lib/*": ["lib/*"] // enables us to use @components/MyComponent
+        }
     },
     // "include": ["src/"]
     "exclude": [

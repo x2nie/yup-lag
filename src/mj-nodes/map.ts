@@ -18,7 +18,7 @@ export class MapNode extends Branch {
     private ND = new Int32Array(6);
 
     public override async load(
-        elem: Element,
+        elem: XmlElement,
         parentSymmetry: Uint8Array,
         grid: Grid
     ) {

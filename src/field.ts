@@ -11,7 +11,7 @@ export class Field {
     public readonly zero: number;
     public readonly substrate: number;
 
-    constructor(elem: Element, grid: Grid) {
+    constructor(elem: XmlElement, grid: Grid) {
         this.recompute = elem.getAttribute("recompute") === "True";
         this.essential = elem.getAttribute("essential") === "True";
         const on = elem.getAttribute("on");

@@ -14,7 +14,7 @@ export class PathNode extends Node {
     public edges: boolean;
     public vertices: boolean;
 
-    public override async load(elem: Element, _: Uint8Array, grid: Grid) {
+    public override async load(elem: XmlElement, _: Uint8Array, grid: Grid) {
         const startSymbols = elem.getAttribute("from");
         this.start = grid.wave(startSymbols);
         this.value = grid.values.get(

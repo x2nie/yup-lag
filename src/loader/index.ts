@@ -1,4 +1,4 @@
-import { DOMParser } from "@xmldom/xmldom";
+// import { DOMParser } from "@xmldom/xmldom";
 import { VoxHelper } from "../helpers/vox";
 
 export class Loader {

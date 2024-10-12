@@ -13,7 +13,7 @@ export class TrayNode extends  SequenceNode {
     public symmetry: Uint8Array;
 
     public override async load(
-        elem: Element,
+        elem: XmlElement,
         parentSymmetry: Uint8Array,
         grid: Grid
     ) {
@@ -74,7 +74,7 @@ export class TrayNode extends  SequenceNode {
         return RunState.FAIL;
     }
 
-    parseEnv(env: Element, parentSymmetry: Uint8Array,){
+    parseEnv(env: XmlElement, parentSymmetry: Uint8Array,){
         const symmetryString = env.getAttribute("symmetry");
         if (symmetryString){
     

@@ -273,7 +273,7 @@ export class Rule {
         return [result, MX, MY, MZ];
     }
 
-    public static async load(elem: Element, gin: Grid, gout: Grid) {
+    public static async load(elem: XmlElement, gin: Grid, gout: Grid) {
         const filepath = (name: string) => {
             let result = "resources/rules/";
             if (gout.folder != null) result += gout.folder + "/";

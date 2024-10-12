@@ -96,7 +96,7 @@ const preseved_id_tag = [
 let seq_id = 1;
 
 /**
- * Element in an XML document.
+ * XmlElement in an XML document.
  */
 export class XmlElement {
   /**

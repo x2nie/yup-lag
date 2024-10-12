@@ -36,7 +36,7 @@ export class ConvolutionNode extends Node {
         ],
     ]);
 
-    public override async load(elem: Element, _: Uint8Array, grid: Grid) {
+    public override async load(elem: XmlElement, _: Uint8Array, grid: Grid) {
         const erules = [...Helper.childrenByTag(elem, "rule")];
         const elems = erules.length ? erules : [elem];
 
@@ -183,7 +183,7 @@ export class ConvolutionRule {
     public sums: Uint8Array;
     public p: number;
 
-    public load(elem: Element, grid: Grid) {
+    public load(elem: XmlElement, grid: Grid) {
         this.input = grid.values.get(elem.getAttribute("in").charCodeAt(0));
         this.output = grid.values.get(elem.getAttribute("out").charCodeAt(0));
         const valueString = elem.getAttribute("values");

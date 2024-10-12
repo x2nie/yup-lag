@@ -1,6 +1,5 @@
 import { Random } from "../random";
-import { DOMParser } from "@xmldom/xmldom";
-import { Parser, ParserOptions } from "@lib/xml";
+import { Parser, ParserOptions, XmlElement } from "@lib/xml";
 
 interface WritableArray<T> {
     readonly length: number;
@@ -22,6 +21,7 @@ export class Helper {
         return (new Parser(text, options)).document;
     }
 
+    /*
     public static xmlParse(text: string) {
         // text = `<sequence>${text}</sequence>` //  doesn work
         // text = `<sequence values="BIPENDAWROYGUSKFZ">${text}</sequence>`;
@@ -36,14 +36,13 @@ export class Helper {
             // return doc.documentElement.children[0];
         }
     }
+    */
 
-    public static mergeEnv(elem: Element){
+    public static mergeEnv(elem: XmlElement){
         for (const child of Helper.elemChildren(elem)) {
             if(child.tagName=="env"){
-                for (let i = 0; i < child.attributes.length; i++) {
-                    const attr = child.attributes[i];
-                    elem.setAttribute(attr.name, attr.value);
-                }
+                for (let [k, v] of Object.entries(child.attributes))
+                    elem.attributes[k] = v;
             } else 
                 // currently doesn't support <env> after non-env element. 
                 // due that is hard to think set config after runnning = after a valid node: setting is disabled.
@@ -75,26 +74,26 @@ export class Helper {
         return 0;
     }
 
-    public static *elemChildren(e: Element) {
-        for (const n of Helper.collectionIter(e.childNodes)) {
-            if (n.nodeType !== 1) continue;
-            const c = <Element>n;
+    public static *elemChildren(e: XmlElement) {
+        for (const n of e.children) {
+            if (!(n instanceof XmlElement)) continue;
+            const c = <XmlElement>n;
             yield c;
         }
     }
 
-    public static *childrenByTag(e: Element, tag: string) {
-        for (const n of Helper.collectionIter(e.childNodes)) {
-            if (n.nodeType !== 1) continue;
-            const c = <Element>n;
+    public static *childrenByTag(e: XmlElement, tag: string) {
+        for (const n of e.children) {
+            if (!(n instanceof XmlElement)) continue;
+            const c = <XmlElement>n;
             if (c.tagName === tag) yield c;
         }
     }
 
-    public static *childrenByTags(e: Element, tags: string[]) {
-        for (const n of Helper.collectionIter(e.childNodes)) {
-            if (n.nodeType !== 1) continue;
-            const c = <Element>n;
+    public static *childrenByTags(e: XmlElement, tags: string[]) {
+        for (const n of e.children) {
+            if (!(n instanceof XmlElement)) continue;
+            const c = <XmlElement>n;
             if (tags.includes(c.tagName)) yield c;
         }
     }
@@ -113,7 +112,7 @@ export class Helper {
         }
     }
 
-    public static *matchTags(elem: Element, ...tags: string[]) {
+    public static *matchTags(elem: XmlElement, ...tags: string[]) {
         const queue = [elem];
 
         while (queue.length) {
@@ -123,10 +122,10 @@ export class Helper {
         }
     }
 
-    public static matchTag(e: Element, tag: string) {
-        for (const n of Helper.collectionIter(e.childNodes)) {
-            if (n.nodeType !== 1) continue;
-            const c = <Element>n;
+    public static matchTag(e: XmlElement, tag: string) {
+        for (const n of e.children) {
+            if (!(n instanceof XmlElement)) continue;
+            const c = <XmlElement>n;
             if (c.tagName === tag) return c;
         }
         return null;

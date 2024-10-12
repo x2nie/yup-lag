@@ -3,13 +3,14 @@ import * as syntax from '@rgrove/parse-xml/dist/lib/syntax';
 import {XmlCdata, 
 XmlComment, 
 XmlDeclaration, 
-XmlDocument, 
+// XmlDocument, 
 XmlDocumentType, 
-XmlElement, 
+// XmlElement, 
 XmlError, 
-XmlNode, 
+// XmlNode, 
 XmlProcessingInstruction, 
 XmlText } from '@rgrove/parse-xml';
+import { XmlElement, XmlDocument, XmlNode } from '.';
 
 const emptyString = '';
 
@@ -21,7 +22,7 @@ const emptyString = '';
 export class Parser {
   readonly document: XmlDocument;
 
-  private currentNode: XmlDocument | XmlElement;
+  private currentNode: XmlElement;
   private readonly options: ParserOptions;
   private readonly scanner: StringScanner;
 
@@ -262,7 +263,7 @@ export class Parser {
     this.validateChars(charData);
 
     if (scanner.peek(3) === ']]>') {
-      throw this.error('Element content may not contain the CDATA section close delimiter `]]>`');
+      throw this.error('XmlElement content may not contain the CDATA section close delimiter `]]>`');
     }
 
     return this.addText(charData, startIndex);
@@ -451,6 +452,7 @@ export class Parser {
         throw this.error(`Unclosed end tag for element ${name}`);
       }
 
+      // @ts-ignore
       this.currentNode = element.parent;
     }
 

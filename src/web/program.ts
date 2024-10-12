@@ -96,7 +96,7 @@ export class Program {
     public static instance: Model = null;
 
     //@observable
-    public static models: Map<string, Element> = new Map();
+    public static models: Map<string, XmlElement> = new Map();
 
     //@observable
     public static palette: Map<string, Uint8ClampedArray> = new Map();
@@ -172,9 +172,9 @@ export class Model {
     public readonly key: string;
     public readonly name: string;
 
-    private readonly modelDescriptor: Element;
+    private readonly modelDescriptor: XmlElement;
     public modelXML: string;
-    private modelDoc: Element;
+    private modelDoc: XmlElement;
 
     private ip: Interpreter;
     private breakpoints: Set<Node> = new Set();

@@ -6,7 +6,7 @@ import { RuleNode, RunState } from ".";
 
 export class AllNode extends RuleNode {
     public override async load(
-        elem: Element,
+        elem: XmlElement,
         parentSymmetry: Uint8Array,
         grid: Grid
     ) {

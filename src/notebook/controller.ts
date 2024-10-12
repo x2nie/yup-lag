@@ -1,6 +1,6 @@
 import * as vscode from 'vscode';
 import { Helper } from '../helpers/helper';
-import { DOMParser } from "@xmldom/xmldom";
+// import { DOMParser } from "@xmldom/xmldom";
 // import { Loader } from '../loader';
 
 
@@ -42,10 +42,10 @@ export class YupKernel {
 		const xml2json = (txt: string) => {
 			return Helper.parseXml(txt).toJSON();
 		};
-		const xml2json0 = (txt: string) => {
+		/*const xml2json0 = (txt: string) => {
 			// const parser = new DOMParser();
 			// const doc = parser.parseFromString(txt, "text/xml");
-			// const el = doc.firstChild as Element;
+			// const el = doc.firstChild as XmlElement;
 			// const el = Loader.xmlParse(txt);
 			const el = Helper.xmlParse(txt);
 			// const el = xmlParse(txt);
@@ -63,7 +63,7 @@ export class YupKernel {
 			const {tagName, lineNumber} = el;
 			// console.log(attributes);
 			return {tagName, lineNumber, attributes };
-		};
+		};*/
 
 		try {
 			let fun: any;
