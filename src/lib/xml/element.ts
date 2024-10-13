@@ -1,4 +1,4 @@
-import { XmlElement as GroveXmlElement } from '@rgrove/parse-xml';
+import { XmlNode, XmlElement as GroveXmlElement } from '@rgrove/parse-xml';
 
 export class XmlElement extends GroveXmlElement {
 
@@ -27,5 +27,8 @@ export class XmlElement extends GroveXmlElement {
 export class XmlDocument extends XmlElement {
     constructor () {
         super('sequence', {values: 'BIPENDAWROYGUSKFZ'});
+    }
+    override get type() {
+        return XmlNode.TYPE_DOCUMENT;
     }
 }
