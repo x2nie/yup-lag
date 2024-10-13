@@ -21,12 +21,15 @@ export class XmlElement extends GroveXmlElement {
     getAttribute(name:string):string {
         return this.attributes[name];
     }
+    numberAttribute(name:string):number {
+        return Number(this.attributes[name]);
+    }
     
 }
 
 export class XmlDocument extends XmlElement {
     constructor () {
-        super('sequence', {values: 'BIPENDAWROYGUSKFZ'});
+        super('sequence', {values: 'BIPENDAWROYGUSKFZ', MX:'15',MY:'15', MZ:'1'});
     }
     override get type() {
         return XmlNode.TYPE_DOCUMENT;
