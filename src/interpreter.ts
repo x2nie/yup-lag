@@ -27,14 +27,11 @@ export class Interpreter {
 
     public static async load(
         elem: XmlElement,
-        MX: number,
-        MY: number,
-        MZ: number
     ) {
         Helper.mergeEnv(elem);
         const ip = new Interpreter();
-        ip.origin = elem.getAttribute("origin") === "True";
-        ip.grid = Grid.build(elem, MX, MY, MZ);
+        // ip.origin = elem.getAttribute("origin") === "True";
+        ip.grid = Grid.build(elem);
         if (!ip.grid) {
             console.error("Failed to load grid");
             return null;
@@ -58,7 +55,7 @@ export class Interpreter {
 
         const topnode = await Node.factory(elem, symmetry, ip, ip.grid);
         if (!topnode) return null;
-        ip.root =
+        ip.root = 
             topnode instanceof Branch ? topnode : new MarkovNode(topnode, ip);
         return ip;
     }

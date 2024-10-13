@@ -4,7 +4,7 @@ import { InterpreterState, Interpreter } from '../interpreter';
 // import { DOMParser } from "@xmldom/xmldom";
 // import { Loader } from '../loader';
 
-const MX = 15, MY = MX, MZ =1, STEPS=200;
+const /* MX = 15, MY = MX, MZ =1, */ STEPS=200;
 
 export class YupKernel {
 	private readonly _id = 'yup-notebook-serializer-kernel';
@@ -56,13 +56,15 @@ export class YupKernel {
 		execution.executionOrder = ++this._executionOrder;
 		execution.start(Date.now());
 
+		try {
 		const elem = Helper.parseXml(cell.document.getText());
 		if(ips){
 			elem.setAttribute("values", ips.grid.characters);
+			elem.setAttribute("MX", String(ips.grid.MX));
+			elem.setAttribute("MY", String(ips.grid.MY));
+			elem.setAttribute("MZ", String(ips.grid.MZ));
 		}
-		const ip = await Interpreter.load(
-			elem, MX, MY, MZ
-		);
+		const ip = await Interpreter.load(elem);
 		let curr;
 		if(ips){
 			curr = ip.advance(STEPS, ips);
@@ -77,7 +79,7 @@ export class YupKernel {
 		
 		// cell.metadata['ip'] = ip.toJSON()
 
-		const [grid, chars] = ip.state();
+		const [grid, chars, MX, MY, MZ] = ip.state();
 		let s = '';
 		let i = 0;
 		for (let y = 0; y < MY; y++) {
@@ -115,7 +117,6 @@ export class YupKernel {
 			return {tagName, lineNumber, attributes };
 		};*/
 
-		try {
 			let fun: any;
 			const text = cell.document.getText();
 			switch (cell.document.languageId) {

@@ -37,7 +37,7 @@ async function exec(
         elem.setAttribute("values", oldIP.grid.characters);
     }
     const ip = await Interpreter.load(
-        elem, MX, MY, MZ
+        elem
     );
     let curr;
     if(!oldIP){
