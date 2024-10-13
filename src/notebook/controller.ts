@@ -1,6 +1,6 @@
 import * as vscode from 'vscode';
 import { Helper } from '../helpers/helper';
-import { Interpreter } from '../interpreter';
+import { InterpreterState, Interpreter } from '../interpreter';
 // import { DOMParser } from "@xmldom/xmldom";
 // import { Loader } from '../loader';
 
@@ -31,31 +31,52 @@ export class YupKernel {
 
 	private _executeAll(cells: vscode.NotebookCell[], _notebook: vscode.NotebookDocument, _controller: vscode.NotebookController): void {
 		for (const cell of cells) {
-			this._doExecution(cell);
+			this._doExecution(cell, this._getPreviousState(cell));
 		}
 	}
 
-	private async _doExecution(cell: vscode.NotebookCell): Promise<void> {
+	private _getPreviousState(cell: vscode.NotebookCell):InterpreterState{
+		if(cell.index>0){
+			const prevCell = cell.notebook.cellAt(cell.index-1);
+			for (const o1 of prevCell.outputs){
+		
+				for (const o2 of o1.items){
+					if (o2.mime == 'application/jup-ipstate+json'){
+						return JSON.parse(o2.data.toString());
+					}
+				}
+			}
+		}
+		return null;
+	}
+
+	private async _doExecution(cell: vscode.NotebookCell, ips: InterpreterState): Promise<void> {
 		const execution = this._controller.createNotebookCellExecution(cell);
 
 		execution.executionOrder = ++this._executionOrder;
 		execution.start(Date.now());
 
 		const elem = Helper.parseXml(cell.document.getText());
+		if(ips){
+			elem.setAttribute("values", ips.grid.characters);
+		}
 		const ip = await Interpreter.load(
 			elem, MX, MY, MZ
 		);
 		let curr;
-		// if(!oldIP){
-		// 	curr = ip.advance(STEPS, oldIP);
-		// } else {
+		if(ips){
+			curr = ip.advance(STEPS, ips);
+		} else {
 			curr = ip.run(undefined, STEPS);
-		// }
+		}
 		let result = curr.next();
 		while(!result.done){
 			// console.log(result);
 			result = curr.next();
 		}
+		
+		// cell.metadata['ip'] = ip.toJSON()
+
 		const [grid, chars] = ip.state();
 		let s = '';
 		let i = 0;
@@ -109,10 +130,19 @@ export class YupKernel {
 					break;
 			}
 
-			execution.replaceOutput([new vscode.NotebookCellOutput([
-				vscode.NotebookCellOutputItem.json(fun(text)),
-				vscode.NotebookCellOutputItem.text(s, 'text/plain')
-			])]);
+			execution.replaceOutput([
+				new vscode.NotebookCellOutput([
+					// vscode.NotebookCellOutputItem.json(fun(text)),
+					vscode.NotebookCellOutputItem.text(s, 'text/plain'),
+					vscode.NotebookCellOutputItem.json(ip.toJSON(), 'application/jup-ipstate+json'),
+					]
+				),
+				// new vscode.NotebookCellOutput([
+				// 	vscode.NotebookCellOutputItem.json(fun(text)),
+				// 	// vscode.NotebookCellOutputItem.text(s, 'text/plain'),
+				// 	]
+				// )
+			]);
 
 			execution.end(true, Date.now());
 		} catch (err) {

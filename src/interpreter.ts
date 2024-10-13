@@ -1,9 +1,14 @@
 import { Random } from "./random";
-import { Grid } from "./grid";
+import { Grid, IGridStorage } from "./grid";
 import { Helper, vec3 } from "./helpers/helper";
 import { SymmetryHelper } from "./helpers/symmetry";
 import { Node, Branch, MarkovNode } from "./mj-nodes";
 import { XmlElement } from "./lib/xml";
+
+export interface InterpreterState {
+    random: {seed:number, counter:number};
+    grid: IGridStorage;
+}
 
 export class Interpreter {
     public root: Branch;
@@ -102,12 +107,13 @@ export class Interpreter {
      */
     public *advance(
         // seed: number,
-        steps: number, ip:Interpreter
+        steps: number, ip:InterpreterState
     ): Generator<[Uint8Array, string, number, number, number]> {
-        this.rng = ip.rng;
+        this.rng = new Random(ip.random.seed, ip.random.counter);
         // this.grid = ip.grid;
-        this.grid.clear();
-        this.grid.padded.set(ip.grid.padded);
+        // this.grid.clear();
+        // this.grid.padded.set(ip.grid.padded);
+        this.grid.fromJSON(ip.grid);
 
         if (this.origin) {
             const center =
@@ -141,5 +147,18 @@ export class Interpreter {
     public state(): [Uint8Array, string, number, number, number] {
         const grid = this.grid;
         return [grid.padded, grid.characters, grid.MX, grid.MY, grid.MZ];
+    }
+
+    public toJSON(): InterpreterState{
+        return {
+            random: {seed: this.rng.seed, counter: this.rng.counter},
+            grid: this.grid.toJSON()
+        };
+    }
+    public fromJSON(o:InterpreterState){
+        return {
+            random: {seed: this.rng.seed, counter: this.rng.counter},
+            grid: this.grid.toJSON()
+        };
     }
 }

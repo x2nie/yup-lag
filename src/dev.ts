@@ -1,7 +1,7 @@
 // import { parseXml } from '@rgrove/parse-xml';
 // import { ParserOptions } from '@rgrove/parse-xml/src/lib/Parser';
 // import { Parser } from '@rgrove/parse-xml/dist/lib/Parser.js';
-import { Interpreter } from "./interpreter";
+import { InterpreterState, Interpreter } from "./interpreter";
 import { Helper } from "./helpers/helper";
 // import { XmlNode } from "@rgrove/parse-xml";
 import { Parser, XmlNode, XmlElement, parseXml } from "./lib/xml";
@@ -9,7 +9,7 @@ import { Parser, XmlNode, XmlElement, parseXml } from "./lib/xml";
 const xx = new XmlElement('yo');
 console.log(xx.find('zoo'));
 
-let ip : Interpreter;
+let ip : InterpreterState;
 
 const code1 = document.getElementById('code1') as HTMLTextAreaElement;
 const pre1 = document.getElementById('result1') as HTMLPreElement;
@@ -26,7 +26,10 @@ document.getElementById('parse2').addEventListener('click', () => parse(code2, p
 
 const MX = 15, MY = MX, MZ =1, STEPS=200;
 
-async function exec(code:HTMLTextAreaElement, pre:HTMLPreElement, oldIP:Interpreter=undefined):Promise<Interpreter>{
+async function exec(
+    code:HTMLTextAreaElement, 
+    pre:HTMLPreElement, 
+    oldIP:InterpreterState=undefined):Promise<InterpreterState>{
     console.log('reset:',reset.checked);
     // const elem = Helper.xmlParse(code.value);
     const elem = Helper.parseXml(code.value);
@@ -60,7 +63,8 @@ async function exec(code:HTMLTextAreaElement, pre:HTMLPreElement, oldIP:Interpre
     pre.textContent = s;
     // debugger
     document.title = String(ip.changes.length);
-    return ip;
+    console.log(ip.toJSON())
+    return ip.toJSON();
 }
 
 /*

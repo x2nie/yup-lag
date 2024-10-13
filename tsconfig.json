@@ -24,7 +24,7 @@
         // "module": "es2020",
         // "moduleResolution": "Bundler",
         // "resolveJsonModule": true,
-        "jsx": "react-jsx",
+        // "jsx": "react-jsx",
         // "downlevelIteration": true
         "traceResolution": true,
         // "baseUrl": "./src", // root of your "paths" below. Required if "paths" is defined

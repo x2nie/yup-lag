@@ -21,19 +21,32 @@ export class Random {
     //
     // Member Variables
     //
+    public seed : number;
     private inext: number;
     private inextp: number;
     //private int[] SeedArray = new int[56];
     private SeedArray: Int32Array;
 
+    //? REPLAY & FAST-FORWARD STUFF
+    private _counter: number = 0;
+    public get counter(){
+        return this._counter;
+    }
+    public skips(count:number){
+        for (let i = 0; i < count; i++) {
+            this.internalSample();
+        }
+    }
+
     // public Random(Seed:number) {}
-    constructor(seed: number | undefined = undefined) {
+    constructor(seed: number | null = null, skips:number=0) {
+        this.seed = seed; // save actual parameter;
         this.inext = 0;
         this.inextp = 21;
         this.SeedArray = new Int32Array(56);
         this.SeedArray.fill(0);
 
-        if (seed === undefined) {
+        if (!seed) {
             //this(Environment.TickCount);
             seed = Math.floor(Math.random() * MBIG);
         }
@@ -60,6 +73,7 @@ export class Random {
                 if (this.SeedArray[i] < 0) this.SeedArray[i] += MBIG;
             }
         }
+        if(skips) this.skips(skips);
     }
 
     public next(maxValue: number = 0): number {
@@ -118,6 +132,8 @@ export class Random {
 
         this.inext = locINext;
         this.inextp = locINextp;
+
+        this._counter++;
 
         return retVal;
     }

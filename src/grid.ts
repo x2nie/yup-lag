@@ -1,6 +1,15 @@
 import { Helper } from "./helpers/helper";
 import { XmlElement } from "./lib/xml";
 
+export interface IGridStorage {
+    MX: number;
+    MY: number;
+    MZ: number;
+    transparent?: number;
+    characters: string;
+    data: string;
+}
+
 export class Grid {
     public state: Uint8Array;
     public padded: Uint8Array;
@@ -90,5 +99,42 @@ export class Grid {
         for (let i = 0; i < values.length; i++)
             sum += 1 << this.values.get(values.charCodeAt(i));
         return sum;
+    }
+
+    public toJSON():IGridStorage{
+        const {MX,MY,MZ,characters,padded} = this;
+        let s = '';
+		let i = 0;
+		for (let z = 0; z < MZ; z++) {
+            for (let y = 0; y < MY; y++) {
+                for (let x = 0; x < MX; x++) {
+                    s += padded[i] == 0 ? '-' : characters[padded[i]];
+                    i++;
+                }
+                s += '/';
+            }
+            if(MZ>1) s += ' ';
+        }
+        return {
+            characters, MX, MY, MZ, 
+            transparent:this.transparent,
+            data:s
+        };
+    }
+
+    public fromJSON(o : IGridStorage){
+        if(!o) return;
+        const {MX,MY,MZ,characters,data} = o;
+        let i = 0;
+		for (const sz of  data.split(' ')) {
+            for (const sy of  sz.split('/')) {
+                for (const s of  sy.split('')) {
+                    // this.padded[i] = this.values.get(s.charCodeAt(0));
+                    this.padded[i] = s=='-'? 0 : characters.indexOf(s);
+                    i++;
+                }
+            }
+        }
+
     }
 }
