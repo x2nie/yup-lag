@@ -1,6 +1,7 @@
 {
     "compilerOptions": {
         "module": "commonjs",
+        // "module": "Node16",
         "target": "es2020",
 		"lib": [
 			"es2021", 
@@ -22,7 +23,7 @@
         "forceConsistentCasingInFileNames": true,
         "noFallthroughCasesInSwitch": true,
         // "module": "es2020",
-        // "moduleResolution": "Bundler",
+        // "moduleResolution": "Node16",
         // "resolveJsonModule": true,
         // "jsx": "react-jsx",
         // "downlevelIteration": true

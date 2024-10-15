@@ -33,4 +33,19 @@ export function extentionActivated(context: vscode.ExtensionContext) {
 		),
 		new YupKernel()
 	);
+
+	// context.subscriptions.push(vscode.notebooks.registerNotebookCellStatusBarItemProvider(). .re.registerNotebookOutputRenderer({
+	// 	renderOutputItem: (outputItem, element) => {
+	// 		const canvas = document.createElement('canvas');
+	// 		canvas.width = 300; // Set width sesuai kebutuhan
+	// 		canvas.height = 300; // Set height sesuai kebutuhan
+	// 		element.appendChild(canvas);
+
+	// 		// Ambil data GIF dari output item
+	// 		const gifData = outputItem.data();
+			
+	// 		// Panggil fungsi untuk menggambar GIF
+	// 		renderGifOnCanvas(canvas, gifData);
+	// 	}
+	// }));
 }

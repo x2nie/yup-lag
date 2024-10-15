@@ -42,7 +42,7 @@ export class OverlapNode extends WFCNode {
         // Default to true
         const periodicInput = !(elem.getAttribute("periodicInput") === "False");
 
-        this.newgrid = Grid.build(elem, grid.MX, grid.MY, grid.MZ);
+        this.newgrid = Grid.build(elem/* , grid.MX, grid.MY, grid.MZ */);
         if (!this.newgrid) return false;
         this.periodic = true;
 

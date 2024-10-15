@@ -31,6 +31,16 @@
           }
         ]
       }
+    ],
+    "notebookRenderer": [
+      {
+        "id": "yup-notebook-renderer-ipstate",
+        "entrypoint": "./static/notebook-renderers/ipstate.js",
+        "displayName": "Yup Finish Renderer",
+        "mimeTypes": [
+          "x-application/yup-ipstate+json"
+        ]
+      }
     ]
   },
   "scripts": {
@@ -44,15 +54,16 @@
   "author": "Yuu6883",
   "license": "MIT",
   "devDependencies": {
+    "@rgrove/parse-xml": "^4.1.0",
     "@types/ace": "^0.0.48",
     "@types/file-saver": "^2.0.5",
     "@types/mocha": "^10.0.8",
-    "@types/node": "14.x",
+    "@types/node": "^22.7.5",
     "@types/seedrandom": "^3.0.2",
     "@types/vscode": "^1.74.0",
+    "@types/vscode-notebook-renderer": "^1.72.3",
     "@typescript-eslint/eslint-plugin": "^7.14.0",
     "@typescript-eslint/parser": "^7.14.0",
-    "@rgrove/parse-xml": "^4.1.0",
     "ace-builds": "^1.8.1",
     "eslint": "^8.56.0",
     "gl-matrix": "^3.4.3",
@@ -63,6 +74,5 @@
     "typescript": "^5.5.2",
     "vite": "^5.4.8"
   },
-  "dependencies": {
-  }
+  "dependencies": {}
 }
