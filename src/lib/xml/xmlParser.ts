@@ -46,7 +46,8 @@ export class Parser {
     this.consumeProlog();
 
     if (!this.consumeElement()) {
-      throw this.error('Root element is missing or invalid');
+      // do not error on empty, just continue
+      // throw this.error('Root element is missing or invalid');
     }
 
     while (this.consumeMisc()) {} // eslint-disable-line no-empty
