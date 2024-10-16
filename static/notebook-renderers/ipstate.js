@@ -51,7 +51,8 @@ function renderGifOnCanvas(canvas, ip) {
     const pal = ip.characters.split('').map(c => PALETTE[c] || 'black');
     canvas.width = MX; // Set ukuran canvas
     canvas.height = MY;
-    canvas.style.height = '256px';
+    // canvas.style.height = '256px';
+    canvas.style.height = `${proportionalScale(256, MY)}px`;
     canvas.style.imageRendering = 'pixelated';
     const ctx = canvas.getContext('2d');
     for (const sz of data.split(' ')) {
@@ -69,6 +70,15 @@ function renderGifOnCanvas(canvas, ip) {
         break;
     }
 }
+
+function proportionalScale(target, MY){
+    const multiplied = target * 1.0 / MY;
+    const ground = Math.floor(multiplied);
+    const rounded = Math.ceil(multiplied);
+    const fraction = multiplied - ground;
+    return MY * (fraction > 0.65 ? rounded : ground);
+}
+
 const PALETTE = {
     "B": "#000000",
     "I": "#1D2B53",
