@@ -43,22 +43,54 @@ export class Parser {
     }
 
     scanner.consumeStringFast('\uFEFF'); // byte order mark
-    this.consumeProlog();
+    // this.consumeProlog();
 
-    if (!this.consumeElement()) {
+
+    // if (!this.consumeElement()) {
       // do not error on empty, just continue
       // throw this.error('Root element is missing or invalid');
-    }
-
-    while (this.consumeMisc()) {} // eslint-disable-line no-empty
-
-    // if (!scanner.isEnd) {
-    //   throw this.error('Extra content at the end of the document');
     // }
-    while (!this.scanner.isEnd) {
-              this.consumeElement();
-              this.consumeMisc();
-    }
+
+    do {
+      this.consumeCharData();
+    } while (
+      !this.scanner.isEnd && (
+        this.consumeComment()
+        || this.consumeXmlDeclaration()
+        || this.consumeElement()
+        || this.consumeContentReference()
+        || this.consumeCdataSection()
+        || this.consumeProcessingInstruction()
+        // || this.consumeComment()
+        // || this.consumeMisc()
+      )
+    );
+    this.consumeLastText();
+    // while (!this.scanner.isEnd) {
+    //     this.consumeComment()
+    //     || this.consumeXmlDeclaration()
+    //     || this.consumeElement()
+    //     || this.consumeContentReference()
+    //     || this.consumeCdataSection()
+    //     || this.consumeProcessingInstruction()
+    //     // || this.consumeComment()
+    //     // || this.consumeMisc()
+    // }
+
+    // if (!this.scanner.isEnd){
+    //   const text = this.scanner.consume(this.scanner.charIndex)
+    // }
+
+
+    // while (this.consumeMisc()) {} // eslint-disable-line no-empty
+
+    // // if (!scanner.isEnd) {
+    // //   throw this.error('Extra content at the end of the document');
+    // // }
+    // while (!this.scanner.isEnd) {
+    //           this.consumeElement();
+    //           this.consumeMisc();
+    // }
   }
 
   /**
@@ -107,6 +139,9 @@ export class Parser {
       }
     }
 
+    if (!this.options.preserveText) {
+      return !!text.length;
+    }
     return this.addNode(new XmlText(text), charIndex);
   }
 
@@ -706,6 +741,17 @@ export class Parser {
    */
   consumeWhitespace(): boolean {
     return !!this.scanner.consumeMatchFn(syntax.isWhitespace);
+    // if (!this.options.preserveWhiteSpace)
+    //   return !!this.scanner.consumeMatchFn(syntax.isWhitespace);
+
+    // let { scanner } = this;
+    // let startIndex = scanner.charIndex;
+
+    // let text = scanner.consumeUntilString('<');
+    // if (!text) return false;
+    // scanner.charIndex--;
+    // this.addText(text, startIndex);
+    // return true;
   }
 
   /**
@@ -775,6 +821,23 @@ export class Parser {
   }
 
   /**
+   * in multi root mode, we eat the excess text after the last root.
+   * it is needed for later reconstruction the xml from json ( {} --> <>)
+   * I mean, we don't want to loose the tail text (that maybe \n or spaces)
+   */
+  consumeLastText(): boolean {
+    const { scanner } = this;
+    if (!this.options.preserveText || scanner.isEnd) return false;
+
+    let startIndex = scanner.charIndex;
+    // @ts-ignore
+    const tailLength = scanner.charCount - scanner.charIndex;
+    const text = scanner.consume(tailLength);
+    // return this.addText(text, startIndex); 
+    return this.addNode(new XmlText(text), startIndex);
+  }
+
+  /**
    * Returns an `XmlError` for the current scanner position.
    */
   error(message: string) {
@@ -839,6 +902,16 @@ export type ParserOptions = {
    * @default false
    */
   includeOffsets?: boolean;
+
+  // /**
+  //  * When `true`, any characters between '>' and '<' are refered as TextNode.
+  //  * Usefull to revert back to xml string.
+  //  *
+  //  * @default false
+  //  */
+  // preserveWhiteSpace?: boolean;
+
+  preserveText?: boolean;
 
   /**
    * When `true`, CDATA sections will be preserved in the document as `XmlCdata`
