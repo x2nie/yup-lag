@@ -169,7 +169,8 @@ function parseXml(xml: string, options?: ParserOptions) {
 function parse(code:HTMLTextAreaElement, pre:HTMLPreElement) {
     let xml = code.value;
     // xml = `<wrapper>${xml}</wrapper>`;
-    const doc = parseXml(xml, {preserveComments:true, includeOffsets:true});
+    // const doc = parseXml(xml, {preserveComments:true, preserveWhiteSpace: true, includeOffsets:true});
+    const doc = parseXml(xml, {preserveComments:true, preserveText:true, includeLineNumber:true, includeOffsets:false});
     pre.textContent = JSON.stringify(doc.toJSON(), null, 2);
 }
 // function xmlParse(text: string) {

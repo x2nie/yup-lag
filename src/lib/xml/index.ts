@@ -13,6 +13,18 @@ export {XmlCdata,
 export { XmlElement, XmlDocument } from './element';
 export * from './xmlParser';
 
+// Memperluas interface dari XmlElement
+declare module '@rgrove/parse-xml' {
+    interface XmlNode {
+        line?: number;
+        column?: number;
+        // customProperty?: string;
+        //   customMethod(): void;
+    //    find(tagName: string):string;
+    }
+}
+
+
 /*
 // Memperluas interface dari XmlElement
 declare module '@rgrove/parse-xml' {

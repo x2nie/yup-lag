@@ -13,6 +13,7 @@ XmlText } from '@rgrove/parse-xml';
 import { XmlElement, XmlDocument, XmlNode } from '.';
 
 const emptyString = '';
+const newLine = /\\n/mgy;
 
 /**
  * Parses an XML string into an `XmlDocument`.
@@ -25,6 +26,7 @@ export class Parser {
   private currentNode: XmlElement;
   private readonly options: ParserOptions;
   private readonly scanner: StringScanner;
+  private lineNumbers: number[] = [];
 
   /**
    * @param xml XML string to parse.
@@ -33,6 +35,7 @@ export class Parser {
   constructor(xml: string, options: ParserOptions = {}) {
     let doc = this.document = new XmlDocument();
     let scanner = this.scanner = new StringScanner(xml);
+    this.scanLineNumbers(xml);
 
     this.currentNode = doc;
     this.options = options;
@@ -93,12 +96,41 @@ export class Parser {
     // }
   }
 
+  scanLineNumbers(xml:string){
+    const {lineNumbers } = this;
+    this.lineNumbers.push(0);
+    let line = 0;
+    for (const txt of xml.split('\n')){
+      line += txt.length + 1;
+      lineNumbers.push(line);
+    }
+  }
+
+  lineNumberOf(offset:number):number {
+    let result = 1;
+    while(this.lineNumbers[result] < offset)
+      result++;
+    return result;
+  }
+
+  columnNumberOf(offset:number):number {
+    let line = 0;
+    while(this.lineNumbers[line] < offset)
+      line++;
+    return offset - this.lineNumbers[line - 1];
+  }
+
   /**
    * Adds the given `XmlNode` as a child of `this.currentNode`.
    */
   addNode(node: XmlNode, charIndex: number) {
     node.parent = this.currentNode;
 
+    if (this.options.includeLineNumber) {
+      const offset = this.scanner.charIndexToByteIndex(charIndex);
+      node.line = this.lineNumberOf(offset);
+      node.column = this.columnNumberOf(offset);
+    }
     if (this.options.includeOffsets) {
       node.start = this.scanner.charIndexToByteIndex(charIndex);
       node.end = this.scanner.charIndexToByteIndex();
@@ -902,6 +934,7 @@ export type ParserOptions = {
    * @default false
    */
   includeOffsets?: boolean;
+  includeLineNumber?: boolean;
 
   // /**
   //  * When `true`, any characters between '>' and '<' are refered as TextNode.

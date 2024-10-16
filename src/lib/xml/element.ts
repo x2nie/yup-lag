@@ -1,4 +1,4 @@
-import { XmlNode, XmlElement as GroveXmlElement } from '@rgrove/parse-xml';
+import { XmlNode, XmlElement as GroveXmlElement, JsonObject } from '@rgrove/parse-xml';
 
 export class XmlElement extends GroveXmlElement {
 
@@ -24,7 +24,10 @@ export class XmlElement extends GroveXmlElement {
     numberAttribute(name:string):number {
         return Number(this.attributes[name]);
     }
-    
+    override toJSON(): JsonObject {
+        const {type, ...rest} = super.toJSON();
+        return {type, ...{line: this.line|| undefined,column: this.column|| undefined}, ...rest};
+    }
 }
 
 export class XmlDocument extends XmlElement {
