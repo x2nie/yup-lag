@@ -28,11 +28,15 @@ export class Grid {
     private transparent: number;
     // private statebuffer: Uint8Array;
 
-    public static build(elem: XmlElement) {
+    public static build(elem: XmlElement, 
+        mx: number = 0,
+        my: number = 0,
+        mz: number = 0,
+    ) {
         const g = new Grid();
-        const MX = g.MX = elem.numberAttribute('MX');
-        const MY = g.MY = elem.numberAttribute('MY');
-        const MZ = g.MZ = elem.numberAttribute('MZ');
+        const MX = g.MX = mx || elem.numberAttribute('MX');
+        const MY = g.MY = my || elem.numberAttribute('MY');
+        const MZ = g.MZ = mz || elem.numberAttribute('MZ');
 
         const valueString = elem.getAttribute("values")?.replaceAll(" ", "");
         if (!valueString) {

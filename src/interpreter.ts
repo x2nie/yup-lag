@@ -7,6 +7,7 @@ import { XmlElement } from "./lib/xml";
 
 export interface InterpreterState {
     random: {seed:number, counter:number};
+    symmetry?: string,
     grid: IGridStorage;
 }
 
@@ -19,6 +20,7 @@ export class Interpreter {
 
     origin: boolean;
     public rng: Random;
+    public symmetry: string;
     // public time = 0;
 
     public readonly changes: vec3[] = [];
@@ -30,6 +32,8 @@ export class Interpreter {
     ) {
         Helper.mergeEnv(elem);
         const ip = new Interpreter();
+        const seed = elem.numberAttribute('seed');
+        ip.rng = new Random(seed);
         // ip.origin = elem.getAttribute("origin") === "True";
         ip.grid = Grid.build(elem);
         if (!ip.grid) {
@@ -38,7 +42,7 @@ export class Interpreter {
         }
         ip.startgrid = ip.grid;
 
-        const symmetryString = elem.getAttribute("symmetry");
+        const symmetryString = ip.symmetry = elem.getAttribute("symmetry");
 
         const dflt = new Uint8Array(ip.grid.MZ === 1 ? 8 : 48);
         dflt.fill(1);
@@ -61,10 +65,9 @@ export class Interpreter {
     }
 
     public *run(
-        seed: number,
         steps: number
     ): Generator<[Uint8Array, string, number, number, number]> {
-        this.rng = new Random(seed);
+        // this.rng = new Random(seed);
         this.grid = this.startgrid;
         this.grid.clear();
 
@@ -149,6 +152,7 @@ export class Interpreter {
     public toJSON(): InterpreterState{
         return {
             random: {seed: this.rng.seed, counter: this.rng.counter},
+            symmetry: this.symmetry,
             grid: this.grid.toJSON()
         };
     }

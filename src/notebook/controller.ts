@@ -4,7 +4,7 @@ import { InterpreterState, Interpreter } from '../interpreter';
 // import { DOMParser } from "@xmldom/xmldom";
 // import { Loader } from '../loader';
 
-const /* MX = 15, MY = MX, MZ =1, */ STEPS = 200;
+const /* MX = 15, MY = MX, MZ =1, */ STEPS = 1000;
 
 export class YupKernel {
 	private readonly _id = 'yup-notebook-serializer-kernel';
@@ -38,8 +38,16 @@ export class YupKernel {
 	}
 
 	private _getPreviousState(cell: vscode.NotebookCell): InterpreterState {
-		if (cell.index > 0) {
-			const prevCell = cell.notebook.cellAt(cell.index - 1);
+		let prevCell:vscode.NotebookCell = null;
+		let last = cell.index;
+		// while (last >= 0 && prevCell && prevCell.kind != vscode.NotebookCellKind.Code ) {
+		// 	last++
+		// };
+		do {
+			last--;
+			prevCell = cell.notebook.cellAt(last);
+		} while (last >= 0 && prevCell.kind != vscode.NotebookCellKind.Code );
+		if (last >= 0 && prevCell) {
 			for (const o1 of prevCell.outputs) {
 
 				for (const o2 of o1.items) {
@@ -60,18 +68,22 @@ export class YupKernel {
 
 		try {
 			const elem = Helper.parseXml(cell.document.getText());
+			//? reuse old state first
 			if (ips) {
 				elem.setAttribute("values", ips.grid.characters);
+				elem.setAttribute("symmetry", ips.symmetry);
 				elem.setAttribute("MX", String(ips.grid.MX));
 				elem.setAttribute("MY", String(ips.grid.MY));
 				elem.setAttribute("MZ", String(ips.grid.MZ));
 			}
+
+			//? then, maybe override the state by <env>
 			const ip = await Interpreter.load(elem);
 			let curr;
 			if (ips) {
 				curr = ip.advance(STEPS, ips);
 			} else {
-				curr = ip.run(undefined, STEPS);
+				curr = ip.run(STEPS);
 			}
 			let result = curr.next();
 			while (!result.done) {
