@@ -1,0 +1,57 @@
+{
+	"comments": {
+		// "lineComment": "//",
+		"blockComment": [ "<!--", "-->" ]
+	},
+	"brackets": [
+		// ["<", "/>"],
+		// ["</", ">"],
+		["<", ">"]
+	],
+	"autoClosingPairs": [
+		// { "open": "{", "close": "}" },
+		// { "open": "[", "close": "]" },
+		// { "open": "(", "close": ")" },
+		{ "open": "<", "close": ">" },
+		{ "open": "\"", "close": "\"" },
+		{ "open": "'", "close": "'" }
+		// { "open": "'", "close": "'", "notIn": ["string", "comment"] },
+		// { "open": "\"", "close": "\"", "notIn": ["string"] },
+		// { "open": "`", "close": "`", "notIn": ["string", "comment"] },
+		// { "open": "/**", "close": " */", "notIn": ["string"] }
+	],
+	// "autoCloseBefore": ";:.,=}])>` \n\t",
+	"surroundingPairs": [
+		// ["{", "}"],
+		// ["[", "]"],
+		// ["(", ")"],
+		// ["'", "'"],
+		// ["\"", "\""],
+		// ["`", "`"]
+		{ "open": "<", "close": ">" },
+		{ "open": "\"", "close": "\"" },
+		{ "open": "'", "close": "'" }
+	],
+	// "folding": {
+	// 	"markers": {
+	// 		"start": "^\\s*//\\s*#?region\\b",
+	// 		"end": "^\\s*//\\s*#?endregion\\b"
+	// 	}
+	// },
+	// "wordPattern": "(-?\\d*\\.\\d\\w*)|([^\\`\\~\\!\\@\\#\\%\\^\\&\\*\\(\\)\\-\\=\\+\\[\\{\\]\\}\\\\\\|\\;\\:\\'\\\"\\,\\.\\<\\>\\/\\?\\s]+)",
+	// "indentationRules": {
+	// 	"increaseIndentPattern": "^((?!.*?\\/\\*).*\\*\/)?\\s*[\\}\\]].*$",
+	// 	"decreaseIndentPattern": "^((?!\\/\\/).)*(\\{[^}\"'`]*|\\([^)\"'`]*|\\[[^\\]\"'`]*)$"
+	// }
+	"onEnterRules": [
+		{
+		  "beforeText": "<(\\w+)([^/>]*)>(?!</\\1>)",
+		  "afterText": "</\\1>",
+		  "action": { "indent": "indent" }
+		},
+		{
+		  "beforeText": "</(\\w+)>",
+		  "action": { "indent": "outdent" }
+		}
+	  ]
+}

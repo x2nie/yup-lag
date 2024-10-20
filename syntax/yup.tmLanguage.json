@@ -1,0 +1,49 @@
+{
+    "scopeName": "source.yup",
+    "patterns": [
+      {
+        "name": "comment.block.xml",
+        "begin": "<!--",
+        "end": "-->"
+      },
+      {
+        "name": "meta.tag.xml",
+        "begin": "<\\/?",
+        "end": ">",
+        "patterns": [
+            {
+                "name": "keyword.control.yup",
+                "match": "\\b(all|convchain|convolution|dot|env|field|map|markov|observe|one|path|prl|rule|sequence|union|wfc)\\b"
+            },
+            {
+                "name": "entity.name.tag.xml",
+                "match": "<[/]*[a-zA-Z0-9:_-]+"
+            },
+            {
+                "name": "meta.function-call.arguments.yup",
+                "oldname": "entity.other.attribute-name.xml",
+                "match": "[a-zA-Z0-9:_-]+="
+            },
+            {
+                "name": "constant.numeric.dec.yup",
+                "match": "\"\\d+\""
+            },
+            {
+                "name": "constant.numeric.dec.triplet.yup",
+                "match": "\"\\d+ \\d+ \\d+\""
+            },
+            {
+                "name": "string.quoted.double.xml",
+                "begin": "\"",
+                "end": "\""
+            },
+            {
+                "name": "constant.numeric.float.yup",
+                "match": "(?<=\")\\d+(\\.\\d+)?(?=\")",
+                "matchefull": "\"[0-9\\.]+\""
+            }
+        ]
+      }
+    ]
+  }
+  

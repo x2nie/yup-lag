@@ -41,6 +41,28 @@
           "x-application/yup-ipstate+json"
         ]
       }
+    ],
+    "languages": [
+      {
+        "id": "yup",
+        "extensions": [
+          ".yu",
+          ".yu.xml",
+          ".yup",
+          ".yup.xml"
+        ],
+        "aliases": [
+          "Yup"
+        ],
+        "configuration": "./syntax/language-configuration.json"
+      }
+    ],
+    "grammars": [
+      {
+        "language": "yup",
+        "scopeName": "source.yup",
+        "path": "./syntax/yup.tmLanguage.json"
+      }
     ]
   },
   "scripts": {
