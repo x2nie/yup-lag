@@ -12,7 +12,7 @@
 		// { "open": "{", "close": "}" },
 		// { "open": "[", "close": "]" },
 		// { "open": "(", "close": ")" },
-		{ "open": "<", "close": ">" },
+		{ "open": "<", "close": "/>" },
 		{ "open": "\"", "close": "\"" },
 		{ "open": "'", "close": "'" }
 		// { "open": "'", "close": "'", "notIn": ["string", "comment"] },
@@ -39,19 +39,21 @@
 	// 	}
 	// },
 	// "wordPattern": "(-?\\d*\\.\\d\\w*)|([^\\`\\~\\!\\@\\#\\%\\^\\&\\*\\(\\)\\-\\=\\+\\[\\{\\]\\}\\\\\\|\\;\\:\\'\\\"\\,\\.\\<\\>\\/\\?\\s]+)",
-	// "indentationRules": {
-	// 	"increaseIndentPattern": "^((?!.*?\\/\\*).*\\*\/)?\\s*[\\}\\]].*$",
-	// 	"decreaseIndentPattern": "^((?!\\/\\/).)*(\\{[^}\"'`]*|\\([^)\"'`]*|\\[[^\\]\"'`]*)$"
-	// }
 	"onEnterRules": [
 		{
-		  "beforeText": "<(\\w+)([^/>]*)>(?!</\\1>)",
-		  "afterText": "</\\1>",
-		  "action": { "indent": "indent" }
+			"beforeText": "<(\\w+)([^/>]*)>",
+			//   "afterText": "</\\1>",
+			"action": { "indent": "indent" }
 		},
-		{
-		  "beforeText": "</(\\w+)>",
-		  "action": { "indent": "outdent" }
-		}
-	  ]
+		// {
+			//   "beforeText": "</(\\w+)>",
+			//   "action": { "indent": "outdent" }
+			// }
+	],
+	// defines how the editor should adjust the indentation of current line or next line when you type, paste, and move lines.
+	"indentationRules": {
+		// https://github.com/microsoft/vscode/blob/d00558037359acceea329e718036c19625f91a1a/extensions/html-language-features/client/src/htmlMain.ts#L114-L115
+		"increaseIndentPattern": "<(?!\\?|[^>]*/>)([-_.A-Za-z0-9]+)(?=\\s|>)\\b[^>]*>(?!.*</\\1>)|<!--(?!.*-->)|\\{[^}\"']*$",
+		"decreaseIndentPattern": "^\\s*(</[-_.A-Za-z0-9]+\\b[^>]*>|-->|\\})"
+	}
 }
