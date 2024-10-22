@@ -1,5 +1,6 @@
 import * as vscode from 'vscode';
 import { TextDecoder, TextEncoder } from 'util';
+import { ipState2Text } from './utils';
 
 /**
  * An ultra-minimal sample provider that lets the user type in JSON, and then
@@ -15,6 +16,7 @@ interface RawNotebookCell {
 	value: string;
 	kind: vscode.NotebookCellKind;
 	editable?: boolean;
+	ipState?: any;
 }
 
 export class YupContentSerializer implements vscode.NotebookSerializer {
@@ -32,11 +34,31 @@ export class YupContentSerializer implements vscode.NotebookSerializer {
 		}
 
 		// Create array of Notebook cells for the VS Code API from file contents
-		const cells = raw.cells.map(item => new vscode.NotebookCellData(
-			item.kind,
-			item.value,
-			item.language
-		));
+		const cells = raw.cells.map(item => {
+			const cell = new vscode.NotebookCellData(
+				item.kind,
+				item.value,
+				item.language
+			);
+			if (item.ipState){
+				const state = item.ipState;
+				cell.outputs = [
+					new vscode.NotebookCellOutput([
+						// vscode.NotebookCellOutputItem.json(fun(text)),
+						vscode.NotebookCellOutputItem.text(ipState2Text(state), 'text/plain'),
+						vscode.NotebookCellOutputItem.json(state, 'x-application/yup-ipstate+json'),
+						vscode.NotebookCellOutputItem.json(state, 'application/json'),
+					]
+				)
+			];
+			}
+			return cell;
+		});
+		// const cells = raw.cells.map(item => new vscode.NotebookCellData(
+		// 	item.kind,
+		// 	item.value,
+		// 	item.language
+		// ));
 
 		return new vscode.NotebookData(cells);
 	}
@@ -49,10 +71,21 @@ export class YupContentSerializer implements vscode.NotebookSerializer {
 			contents.cells.push({
 				kind: cell.kind,
 				language: cell.languageId,
-				value: cell.value
+				value: cell.value,
+				ipState: this.getOutput(cell)
 			});
 		}
 
 		return new TextEncoder().encode(JSON.stringify(contents));
+	}
+
+	private getOutput(cell: vscode.NotebookCellData):any{
+		for (const o1 of cell.outputs) {
+			for (const o2 of o1.items) {
+				if (o2.mime == 'x-application/yup-ipstate+json') {
+					return JSON.parse(o2.data.toString());
+				}
+			}
+		}
 	}
 }

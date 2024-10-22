@@ -12,7 +12,7 @@
       "args": [
         "--extensionDevelopmentPath=${workspaceFolder}",
         "--folder-uri=${workspaceFolder}/sample/",
-        "${workspaceFolder}/sample/sample.ipynb"
+        "${workspaceFolder}/sample/pacman.yunb"
       ],
       "outFiles": [
         "${workspaceFolder}/out/**/*.js"

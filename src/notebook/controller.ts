@@ -9,7 +9,7 @@ const /* MX = 15, MY = MX, MZ =1, */ STEPS = 1000;
 export class YupKernel {
 	private readonly _id = 'yup-notebook-serializer-kernel';
 	private readonly _label = 'Yup Notebook Kernel';
-	private readonly _supportedLanguages = ['json', 'xml'];
+	private readonly _supportedLanguages = ['json', 'xml', 'yup'];
 
 	private _executionOrder = 0;
 	private readonly _controller: vscode.NotebookController;

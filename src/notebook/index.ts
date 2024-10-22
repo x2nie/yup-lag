@@ -29,11 +29,12 @@ export function extentionActivated(context: vscode.ExtensionContext) {
 
 	context.subscriptions.push(
 		vscode.workspace.registerNotebookSerializer(
-			NOTEBOOK_TYPE, new YupContentSerializer(), { transientOutputs: true }
+			NOTEBOOK_TYPE, new YupContentSerializer(), { transientOutputs: false }
 		),
 		new YupKernel()
 	);
 
+	// vscode.notebooks.registerNotebookCellStatusBarItemProvider
 	// context.subscriptions.push(vscode.notebooks.registerNotebookCellStatusBarItemProvider(). .re.registerNotebookOutputRenderer({
 	// 	renderOutputItem: (outputItem, element) => {
 	// 		const canvas = document.createElement('canvas');

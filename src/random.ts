@@ -73,7 +73,7 @@ export class Random {
                 if (this.SeedArray[i] < 0) this.SeedArray[i] += MBIG;
             }
         }
-        if(skips) this.skips(skips);
+        if(skips && this.seed) this.skips(skips);
     }
 
     public next(maxValue: number = 0): number {

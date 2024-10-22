@@ -27,7 +27,7 @@
         "displayName": "Yup DN Notebook",
         "selector": [
           {
-            "filenamePattern": "*.sample-yup-notebook"
+            "filenamePattern": "*.yunb"
           }
         ]
       }
@@ -52,7 +52,8 @@
           ".yup.xml"
         ],
         "aliases": [
-          "Yup"
+          "Yup",
+          "yup"
         ],
         "configuration": "./syntax/language-configuration.json"
       }
