@@ -12,6 +12,7 @@ export {XmlCdata,
     XmlText } from '@rgrove/parse-xml';
 export { XmlElement, XmlDocument } from './element';
 export * from './xmlParser';
+// export * from './relaxng';
 
 // Memperluas interface dari XmlElement
 declare module '@rgrove/parse-xml' {

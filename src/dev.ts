@@ -6,6 +6,10 @@ import { Helper } from "./helpers/helper";
 // import { XmlNode } from "@rgrove/parse-xml";
 import { Parser, XmlNode, XmlElement, parseXml } from "./lib/xml";
 
+import GIF from 'gif.js';
+// import GIF = require("gif.js");
+import { workerBlob } from "./lib/gif/gif.worker"; 
+
 const xx = new XmlElement('yo');
 console.log(xx.find('zoo'));
 
@@ -17,12 +21,17 @@ document.getElementById('btn1').addEventListener('click', async () => {
     ip = await exec(code1, pre1);
 });
 document.getElementById('parse1').addEventListener('click', () => parse(code1, pre1));
+// document.getElementById('validate1').addEventListener('click', () => validate(code1, pre1));
 
 const code2 = document.getElementById('code2') as HTMLTextAreaElement;
 const pre2 = document.getElementById('result2') as HTMLPreElement;
 const reset = document.getElementById('reset') as HTMLInputElement;
 document.getElementById('btn2').addEventListener('click', () => exec(code2, pre2, reset.checked?undefined:ip));
 document.getElementById('parse2').addEventListener('click', () => parse(code2, pre2));
+
+const rng = document.getElementById('rng') as HTMLTextAreaElement;
+const pre3 = document.getElementById('result3') as HTMLPreElement;
+// document.getElementById('validate3').addEventListener('click', () => validate(rng, pre3));
 
 const MX = 15, MY = MX, MZ =1, STEPS=200;
 
@@ -33,23 +42,77 @@ async function exec(
     console.log('reset:',reset.checked);
     // const elem = Helper.xmlParse(code.value);
     const elem = Helper.parseXml(code.value);
+    const gif = new GIF({
+        width: MX, height:MY, 
+        workerScript:URL.createObjectURL(workerBlob),
+        background: '#000001',
+        globalPalette: true,
+        // transparent: '#000001',
+        // workers:3,
+        // repeat: -1,
+    });
+    gif.on('finished', (blob) => {
+        const img = document.getElementById('gif');//palette
+        img.src = URL.createObjectURL(blob);
+        img.classList.add('zoomed')
+        // delta = now() - startTime
+        // info.set 'text', """
+        // 100%
+        // #{ (delta / 1000).toFixed 2 }sec
+        // #{ (blob.size / 1000).toFixed 2 }kb
+        // """
+    });
+    const canvas: HTMLCanvasElement = document.createElement('canvas');
     if(oldIP){
         elem.setAttribute("values", oldIP.grid.characters);
     }
     const ip = await Interpreter.load(
         elem
     );
+    canvas.width = ip.grid.MX;
+    canvas.height = ip.grid.MY;
+    const ctx = canvas.getContext('2d');
+    ctx.fillStyle =  '#000001';
+    ctx.clearRect(0,0,MX,MY);
+    gif.addFrame(ctx, {copy: false, delay:500});
+    
     let curr;
     if(!oldIP){
-        curr = ip.run(undefined, STEPS);
+        curr = ip.run(STEPS);
     } else {
         curr = ip.advance(STEPS, oldIP);
     }
     let result = curr.next();
+
+    let n = 0;
     while(!result.done){
+        //? draw gif
+
+        const start = ip.first[n-1];
+        const finish = ip.first[n++];
+        const positions = ip.changes.slice(start, finish);
+        for (const [x,y,z] of  positions) {
+            const pixel_index = y * MX + x;
+            const color_index = ip.grid.padded[pixel_index];
+            const color = ip.grid.characters[color_index]
+            ctx.fillStyle =  PALETTE[color];
+            // ctx.fillStyle =  '#0088ff';
+            ctx.fillRect(x, y, 1, 1); // Menggambar satu pixel
+        }
+        // gif.addFrame(canvas, {delay:500});
+        gif.addFrame(ctx, {copy: true, delay:500});
+
         // console.log(result);
         result = curr.next();
+
+        //? draw first only
+        // if (positions && positions.length) break;
     }
+    gif.render();
+    canvas.toBlob(blob => {
+        const img = document.getElementById('palette');//
+        img.src = URL.createObjectURL(blob);
+    })
     const [grid, chars] = ip.state();
     let s = '';
     let i = 0;
@@ -173,6 +236,14 @@ function parse(code:HTMLTextAreaElement, pre:HTMLPreElement) {
     const doc = parseXml(xml, {preserveComments:true, preserveText:true, includeLineNumber:true, includeOffsets:false});
     pre.textContent = JSON.stringify(doc.toJSON(), null, 2);
 }
+
+// function validate(code:HTMLTextAreaElement, pre:HTMLPreElement) {
+//     let xml = code.value;
+//     // xml = `<wrapper>${xml}</wrapper>`;
+//     const grammar = parseXml(xml, {preserveComments:false, includeLineNumber:true}).children[0];
+//     const js = rngToJson(grammar);
+//     pre.textContent = JSON.stringify(js, null, 2);
+// }
 // function xmlParse(text: string) {
 //     // text = `<sequence>${text}</sequence>` // ! doesn work
 //     // text = `<sequence values="BIPENDAWROYGUSKFZ">${text}</sequence>`;
@@ -188,3 +259,57 @@ function parse(code:HTMLTextAreaElement, pre:HTMLPreElement) {
 
 //     }
 // }
+const PALETTE = {
+    "B": "#000000",
+    "I": "#1D2B53",
+    "P": "#7E2553",
+    "E": "#008751",
+    "N": "#AB5236",
+    "D": "#5F574F",
+    "A": "#C2C3C7",
+    "W": "#FFF1E8",
+    "R": "#FF004D",
+    "O": "#FFA300",
+    "Y": "#FFEC27",
+    "G": "#00E436",
+    "U": "#29ADFF",
+    "S": "#83769C",
+    "K": "#FF77A8",
+    "F": "#FFCCAA",
+    "b": "#291814",
+    "i": "#111d35",
+    "p": "#422136",
+    "e": "#125359",
+    "n": "#742f29",
+    "d": "#49333b",
+    "a": "#a28879",
+    "w": "#f3ef7d",
+    "r": "#be1250",
+    "o": "#ff6c24",
+    "y": "#a8e72e",
+    "g": "#00b543",
+    "u": "#065ab5",
+    "s": "#754665",
+    "k": "#ff6e59",
+    "f": "#ff9d81",
+    "C": "#00ffff",
+    "c": "#5fcde4",
+    "H": "#e4bb40",
+    "h": "#8a6f30",
+    "J": "#4b692f",
+    "j": "#45107e",
+    "L": "#847e87",
+    "l": "#696a6a",
+    "M": "#ff00ff",
+    "m": "#9c09cc",
+    "Q": "#9badb7",
+    "q": "#3f3f74",
+    "T": "#37946e",
+    "t": "#323c39",
+    "V": "#8f974a",
+    "v": "#524b24",
+    "X": "#ff0000",
+    "x": "#d95763",
+    "Z": "#ffffff",
+    "z": "#cbdbfc",
+};

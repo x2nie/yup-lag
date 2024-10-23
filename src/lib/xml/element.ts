@@ -6,6 +6,10 @@ export class XmlElement extends GroveXmlElement {
         return this.name;
     }
 
+    get elements(): XmlElement[] {
+        return this.children.filter(c => c instanceof XmlElement);
+    }
+
     find(tagName: string):string {
         // Misalnya, mencari anak elemen dengan nama tag yang sesuai
         // const found = this.children.filter((child: any) => {

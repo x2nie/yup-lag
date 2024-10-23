@@ -19,13 +19,18 @@
         /* border: 3px solid red; */
         image-rendering: pixelated;
       }
+      .zoomed { 
+        transform: scale(6);
+        transform-origin: top left;
+        image-rendering: pixelated;
+      }
     </style>
     <link rel="stylesheet" href="style.css">
     <script type="module" src="/src/dev.ts"></script>
   </head>
   <body>
-    <img src="vite.svg" />
-    <img src="palette.png" />
+    <img src="vite.svg" id="gif" />
+    <img src="palette.png" id="palette"/>
     <div class="coding">
 
       <textarea id="code1" rows="5">
@@ -40,6 +45,7 @@
 
       <button id="btn1">Start</button>
       <button id="parse1">Parse</button>
+      <button id="validate1">Validate</button>
       <pre id="result1"></pre>
 
 
@@ -55,6 +61,45 @@
         <button id="parse2">Parse</button>
         <label for="reset">Reset <input type="checkbox" id="reset" checked/></label>
       <pre id="result2"></pre>
+
+      <textarea id="rng" rows="32">
+<grammar xmlns="http://relaxng.org/ns/structure/1.0"
+    datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes">
+    <start>
+        <ref name="sequenceContent" />
+    </start>
+    <define name="sequenceContent">
+        <element name="sequence">
+            <oneOrMore>
+                <ref name="mapContent" />
+            </oneOrMore>
+        </element>
+    </define>
+    <define name="mapContent">
+        <element name="map">
+            <oneOrMore>
+                <ref name="ruleContent" />
+            </oneOrMore>
+            <optional>
+                <attribute name="scale" />
+            </optional>
+        </element>
+    </define>
+    <define name="ruleContent">
+        <element name="rule">
+            <attribute name="in" />
+            <attribute name="out" />
+            <optional>
+                <attribute name="comment" />
+            </optional>
+        </element>
+    </define>
+</grammar>
+    
+            </textarea>
+            <button id="validate3">Validate</button>
+            <pre id="result3"></pre>
+
     </div>
 
     <div>
