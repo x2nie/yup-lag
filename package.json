@@ -3,7 +3,7 @@
   "displayName": "Yup Notebook",
   "description": "Notebook using Serializer API sample",
   "publisher": "x2nie",
-  "version": "0.0.1",
+  "version": "0.2.0",
   "engines": {
     "vscode": "^1.74.0"
   },
@@ -74,7 +74,7 @@
     "dev": "vite"
   },
   "keywords": [],
-  "author": "Yuu6883",
+  "author": "x2nie",
   "license": "MIT",
   "devDependencies": {
     "@rgrove/parse-xml": "4.1.0",
@@ -84,7 +84,6 @@
     "@types/mocha": "^10.0.8",
     "@types/node": "^22.7.5",
     "@types/omggif": "^1.0.5",
-    "@types/seedrandom": "^3.0.2",
     "@types/vscode": "^1.74.0",
     "@types/vscode-notebook-renderer": "^1.72.3",
     "@typescript-eslint/eslint-plugin": "^7.14.0",
