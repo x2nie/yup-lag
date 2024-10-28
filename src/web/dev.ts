@@ -10,6 +10,95 @@ import GIF from 'gif.js';
 // import GIF = require("gif.js");
 import { workerBlob } from "../common/lib/gif/gif.worker"; 
 
+import { GifWriter } from "omggif";
+
+document.getElementById('manualgif').addEventListener('click', async () => {
+
+function createGIF() {
+  // Buat canvas
+  const canvas = document.createElement('canvas');
+  const ctx = canvas.getContext('2d');
+
+  // Set ukuran canvas
+  const width = 15;
+  const height = 15;
+//   canvas.width = width;
+//   canvas.height = height;
+
+//   // Gambar kotak merah
+//   ctx!.fillStyle = 'red';
+//   ctx!.fillRect(10, 10, 80, 80);
+
+  // Ambil piksel dari canvas
+//   const imageData = ctx!.getImageData(0, 0, width, height);
+//   const pixels = new Uint8Array(imageData.data.buffer);
+
+  // Siapkan buffer untuk GIF
+  const numFrames = 4; // Misalnya 10 frame
+  const gifBuffer = new Uint8Array(width * height * 5 * numFrames); // Buffer ukuran besar
+  const gif = new GifWriter(gifBuffer, width, height, { 
+    palette: [
+        0x00,   0xff0000, 0x0000ff, 0x00ff00, 
+        0xffff00, 0x00ffff, 0xffffff, 0x88ff00,
+    ],
+    loop: 0 });
+
+  // Tambahkan frame ke GIF
+//   gif.addFrame(0, 0, width, height, pixels, {
+//     palette: [0xff0000, 0x0000ff, 0xffffff, 0x00],
+//     palette0: [
+//         [0x0, 0x00, 0x00], // black
+//         [0xff, 0x00, 0x00], // Palet merah
+//     ],
+//     delay: 200
+//   });
+    
+    // Fungsi untuk menggambar frame dengan kotak bergerak
+  for (let i = 0; i < numFrames; i++) {
+    // Bersihkan canvas
+    // ctx!.clearRect(0, 0, width, height);
+
+    // // Gambar background (misalnya putih)
+    // ctx!.fillStyle = 'white';
+    // ctx!.fillRect(0, 0, width, height);
+
+    // // Gambar kotak merah, posisi berubah tiap frame
+    // ctx!.fillStyle = 'red';
+    // ctx!.fillRect(10 + i * 5, 10, 30, 30); // Gerakkan kotak ke kanan
+
+    // // Ambil piksel dari canvas untuk frame ini
+    // const imageData = ctx!.getImageData(0, 0, width, height);
+    // const pixels = new Uint8Array(imageData.data.buffer);
+
+    const pixels = new Uint8Array(width*height);
+    for (let j = 0; j < i*17; ++j) pixels[j] = 0x0;
+    for (let j = i*17; j < width *10; ++j) pixels[j] = i+j & 0x7;
+
+    // Tambahkan frame ke GIF
+    gif.addFrame(0, 0, width, height, pixels, {
+        // palette: [
+        //     0x00,   0xff0000, 0x0000ff, 0x00ff00, 
+        //     0xffff00, 0x00ffff, 0xffffff, 0x88ff00,
+        // ],
+        delay: 200, // 100ms per frame
+    });
+  }
+
+  // Ekspor GIF sebagai Blob
+  const gifBlob = new Blob([gifBuffer.subarray(0, gif.end())], { type: "image/gif" });
+  const gifUrl = URL.createObjectURL(gifBlob);
+
+  // Buat elemen <img> dan tampilkan GIF
+//   const imgElement = document.createElement('img');
+  const imgElement = document.getElementById('gif') as HTMLImageElement;
+  imgElement.src = gifUrl;
+//   document.body.appendChild(imgElement);
+}
+
+createGIF();
+
+});
+
 const xx = new XmlElement('yo');
 console.log(xx.find('zoo'));
 

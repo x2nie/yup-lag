@@ -4,7 +4,7 @@
 		"outDir": "../../out/src/web",
 		"rootDir": ".",
 		"lib": [
-			"ES2019",
+			"es2021",
 			"dom"
 		],
 		"allowJs": true,

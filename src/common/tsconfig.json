@@ -2,9 +2,11 @@
 	"extends": "../../tsconfig.base.json",
 	"compilerOptions": {
 		"composite": true,
-		"outDir": "../../out/src/common"
+		"outDir": "../../out/src/common",
+		"strictPropertyInitialization": false,
 	},
 	"exclude": [
+		"./wasm",
 		"./web"
 	]
 }
