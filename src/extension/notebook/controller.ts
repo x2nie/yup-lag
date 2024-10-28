@@ -1,6 +1,6 @@
 import * as vscode from 'vscode';
-import { Helper } from '../helpers/helper';
-import { InterpreterState, Interpreter } from '../interpreter';
+import { Helper } from '../../common/helpers/helper';
+import { InterpreterState, Interpreter } from '../../common/interpreter';
 // import { DOMParser } from "@xmldom/xmldom";
 // import { Loader } from '../loader';
 

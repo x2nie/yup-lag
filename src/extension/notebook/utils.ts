@@ -1,4 +1,4 @@
-import { InterpreterState } from "../interpreter";
+import { InterpreterState } from "../../common/interpreter";
 
 export function ipState2Text(ips:InterpreterState): string {
     

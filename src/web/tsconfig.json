@@ -1,0 +1,18 @@
+{
+	"extends": "../../tsconfig.base.json",
+	"compilerOptions": {
+		"outDir": "../../out/src/web",
+		"rootDir": ".",
+		"lib": [
+			"ES2019",
+			"dom"
+		],
+		"allowJs": true,
+		"esModuleInterop": true
+	},
+	"references": [
+		{
+			"path": "../common"
+		}
+	]
+}

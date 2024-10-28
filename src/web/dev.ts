@@ -1,14 +1,14 @@
 // import { parseXml } from '@rgrove/parse-xml';
 // import { ParserOptions } from '@rgrove/parse-xml/src/lib/Parser';
 // import { Parser } from '@rgrove/parse-xml/dist/lib/Parser.js';
-import { InterpreterState, Interpreter } from "./interpreter";
-import { Helper } from "./helpers/helper";
+import { InterpreterState, Interpreter } from "../common/interpreter";
+import { Helper } from "../common/helpers/helper";
 // import { XmlNode } from "@rgrove/parse-xml";
-import { Parser, XmlNode, XmlElement, parseXml } from "./lib/xml";
+import { Parser, XmlNode, XmlElement, parseXml } from "../common/lib/xml";
 
 import GIF from 'gif.js';
 // import GIF = require("gif.js");
-import { workerBlob } from "./lib/gif/gif.worker"; 
+import { workerBlob } from "../common/lib/gif/gif.worker"; 
 
 const xx = new XmlElement('yo');
 console.log(xx.find('zoo'));

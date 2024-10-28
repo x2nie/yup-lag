@@ -1,47 +1,17 @@
 {
-    "compilerOptions": {
-        "module": "commonjs",
-        // "module": "Node16",
-        "target": "es2020",
-		"lib": [
-			"es2021", 
-            "DOM"
-		],
-        // "experimentalDecorators": true,
-        "outDir": "out",
-        "rootDir": "src",
-        "sourceMap": true,
-		// "strict": true,
-        // "target": "ES2020",
-        // "lib": ["dom", "esnext", "ES2020.Promise"],
-        // "noImplicitReturns": true,
-        "allowJs": true,
-        "skipLibCheck": false,
-        "esModuleInterop": true,
-        // "allowSyntheticDefaultImports": true,
-        "strict": false,
-        "forceConsistentCasingInFileNames": true,
-        "noFallthroughCasesInSwitch": true,
-        // "module": "es2020",
-        // "moduleResolution": "Node16",
-        // "resolveJsonModule": true,
-        // "jsx": "react-jsx",
-        // "downlevelIteration": true
-        "traceResolution": true,
-        // "baseUrl": "./src", // root of your "paths" below. Required if "paths" is defined
-        // "baseUrl": "./src",
-        // "paths": {
-        //     "@lib/*": ["lib/*"] // enables us to use @components/MyComponent
-        // }
-    },
-    // "include": ["src/"]
-    "exclude": [
-		"node_modules",
-		// "static",
-        // "vite.config.ts",
-        "src/wasm",
-        "src/web",
-        "src/render",
-		".vscode-test"
+	"files": [],
+	"references": [
+		{
+			"path": "./src/webviews"
+		},
+		{
+			"path": "./src/common"
+		},
+		{
+			"path": "./src/extension"
+		},
+		{
+			"path": "./src/web"
+		}
 	]
 }
